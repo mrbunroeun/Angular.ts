@@ -1,1 +1,266 @@
-<p>navbar works!</p>
+<div class="fixed top-0 left-0 w-full z-40">
+  <!-- Top info bar -->
+  <section
+    class="w-full h-[38px] md:h-[50px] bg-[#B00000] flex flex-row justify-center gap-[10rem] sm:gap-[20rem] md:gap-[50rem] items-center"
+  >
+    <p class="text-white text-[11px] md:text-xs font-light">Address</p>
+    <a
+      href="tel:0123132277"
+      class="text-white text-[11px] md:text-xs font-light hover:opacity-80 transition duration-300 ease-in-out"
+    >
+      012 31 32 77
+    </a>
+  </section>
+
+  <!-- Floating navbar -->
+  <section class="relative mt-10 md:mt-12 z-30">
+    <div
+      class="grid grid-cols-[auto_1fr_auto] items-center mx-auto rounded-full bg-white/95 backdrop-blur-md shadow-xl w-[90%] md:w-[80%] px-6 md:px-10 h-13 md:h-[60px] transition duration-300 ease-in-out"
+    >
+      <!-- Logo -->
+      <img src="logo/metro_log.svg" alt="Metro Catering Logo" class="h-8 md:h-10 w-auto shrink-0" />
+
+      <!-- Desktop links -->
+      <div class="hidden lg:flex flex-row items-center justify-center gap-10 text-base">
+        <a
+          routerLink="/"
+          routerLinkActive="text-[#B00000]"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="text-gray-700 transition duration-300 ease-in-out"
+          >Home</a
+        >
+
+        <a
+          routerLink="/about-us"
+          routerLinkActive="text-[#B00000]"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >About Metro Catering</a
+        >
+
+        <!-- Catering dropdown (desktop, hover) -->
+        <div class="relative" (mouseenter)="openCatering()" (mouseleave)="closeCatering()">
+          <button
+            type="button"
+            class="flex items-center gap-1 text-[#B00000] font-bold focus:outline-none"
+          >
+            Catering Services
+            <svg
+              class="w-3.5 h-3.5 transition-transform duration-500 ease-in-out"
+              [class.rotate-180]="isCateringOpen"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div
+            class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500 ease-in-out"
+            [class.opacity-0]="!isCateringOpen"
+            [class.-translate-y-2]="!isCateringOpen"
+            [class.pointer-events-none]="!isCateringOpen"
+            [class.opacity-100]="isCateringOpen"
+            [class.translate-y-0]="isCateringOpen"
+          >
+            <a
+              routerLink="/canteen-catering-services"
+              routerLinkActive="active"
+              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+              >Canteen Catering Services</a
+            >
+            <a
+              routerLink="/mobile-catering"
+              routerLinkActive="active"
+              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+              >Mobile Catering</a
+            >
+            <a
+              routerLink="/corporate-buffet-catering"
+              routerLinkActive="active"
+              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+              >Corporate Buffet Catering</a
+            >
+            <a
+              routerLink="/event-equipment-rental"
+              routerLinkActive="active"
+              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+              >Event Equipment Rental</a
+            >
+            <a
+              routerLink="/food-box-and-refreshments"
+              routerLinkActive="active"
+              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+              >Food Box & Refreshments</a
+            >
+          </div>
+        </div>
+
+        <a
+          routerLink="/latest-events"
+          routerLinkActive="text-[#B00000]"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >Latest Events</a
+        >
+        <a
+          routerLink="/career"
+          routerLinkActive="text-[#B00000]"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >Career</a
+        >
+        <a
+          routerLink="/contact-us"
+          routerLinkActive="text-[#B00000]"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >Contact Us</a
+        >
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button
+        type="button"
+        [attr.aria-expanded]="isMenuOpen"
+        aria-label="Toggle navigation menu"
+        (click)="toggleMenu()"
+        class="lg:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded-full hover:bg-black/5 transition duration-300 ease-in-out ml-auto"
+      >
+        <span
+          class="block w-5 h-[2px] bg-gray-800 transition duration-300 ease-in-out"
+          [class.rotate-45]="isMenuOpen"
+          [class.translate-y-[7px]]="isMenuOpen"
+        ></span>
+        <span
+          class="block w-5 h-[2px] bg-gray-800 transition duration-300 ease-in-out"
+          [class.opacity-0]="isMenuOpen"
+        ></span>
+        <span
+          class="block w-5 h-[2px] bg-gray-800 transition duration-300 ease-in-out"
+          [class.-rotate-45]="isMenuOpen"
+          [class.-translate-y-[7px]]="isMenuOpen"
+        ></span>
+      </button>
+    </div>
+
+    <!-- Backdrop -->
+    <div
+      class="lg:hidden fixed inset-0 top-0 bg-black/30 -z-10 transition-opacity duration-300 ease-in-out"
+      style="height: 100vh"
+      [class.opacity-0]="!isMenuOpen"
+      [class.pointer-events-none]="!isMenuOpen"
+      [class.opacity-100]="isMenuOpen"
+      (click)="closeMenu()"
+    ></div>
+
+    <!-- Mobile slide-down menu -->
+    <div
+      class="lg:hidden mx-auto w-[90%] md:w-[80%] bg-white/95 backdrop-blur-md rounded-3xl shadow-xl mt-2 px-6 py-4 transition-all duration-300 ease-in-out"
+      [class.opacity-0]="!isMenuOpen"
+      [class.-translate-y-2]="!isMenuOpen"
+      [class.pointer-events-none]="!isMenuOpen"
+      [class.opacity-100]="isMenuOpen"
+      [class.translate-y-0]="isMenuOpen"
+    >
+      <div class="flex flex-col gap-3 text-base">
+        <a
+          routerLink="/"
+          (click)="closeMenu()"
+          class="text-gray-700 transition duration-300 ease-in-out"
+          >Home</a
+        >
+        <a
+          routerLink="/about-us"
+          (click)="closeMenu()"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >About Metro Catering</a
+        >
+
+        <div>
+          <button
+            type="button"
+            (click)="toggleMobileCatering()"
+            class="flex items-center justify-between w-full text-[#B00000] font-bold transition duration-300 ease-in-out"
+          >
+            Catering Services
+            <svg
+              class="w-4 h-4 transition-transform duration-500 ease-in-out"
+              [class.rotate-180]="isMobileCateringOpen"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div
+            class="grid transition-[grid-template-rows] duration-500 ease-in-out"
+            [style.grid-template-rows]="isMobileCateringOpen ? '1fr' : '0fr'"
+          >
+            <div class="overflow-hidden">
+              <div class="flex flex-col mt-2 rounded-xl overflow-hidden bg-black/[0.03]">
+                <a
+                  routerLink="/canteen-catering-services"
+                  (click)="closeMenu()"
+                  routerLinkActive="active"
+                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+                  >Canteen Catering Services</a
+                >
+                <a
+                  routerLink="/mobile-catering"
+                  (click)="closeMenu()"
+                  routerLinkActive="active"
+                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+                  >Mobile Catering</a
+                >
+                <a
+                  routerLink="/corporate-buffet-catering"
+                  (click)="closeMenu()"
+                  routerLinkActive="active"
+                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+                  >Corporate Buffet Catering</a
+                >
+                <a
+                  routerLink="/event-equipment-rental"
+                  (click)="closeMenu()"
+                  routerLinkActive="active"
+                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+                  >Event Equipment Rental</a
+                >
+                <a
+                  routerLink="/food-box-and-refreshments"
+                  (click)="closeMenu()"
+                  routerLinkActive="active"
+                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+                  >Food Box & Refreshments</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a
+          routerLink="/latest-events"
+          (click)="closeMenu()"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >Latest Events</a
+        >
+        <a
+          routerLink="/career"
+          (click)="closeMenu()"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >Career</a
+        >
+        <a
+          routerLink="/contact-us"
+          (click)="closeMenu()"
+          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          >Contact Us</a
+        >
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="h-[54px] md:h-[58px]"></div>
