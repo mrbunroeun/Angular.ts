@@ -31,22 +31,29 @@
         >
 
         <a
-          routerLink="/about-us"
+          routerLink="/about"
           routerLinkActive="text-[#B00000]"
           class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
           >About Metro Catering</a
         >
 
         <!-- Catering dropdown (desktop, hover) -->
-        <div class="relative" (mouseenter)="openCatering()" (mouseleave)="closeCatering()">
+        <div
+          class="relative"
+          routerLinkActive="text-[#B00000] font-bold"
+          [routerLinkActiveOptions]="{ exact: false }"
+          (mouseenter)="onTriggerEnter()"
+          (mouseleave)="onTriggerLeave()"
+        >
           <button
             type="button"
-            class="flex items-center gap-1 text-[#B00000] font-bold focus:outline-none"
+            (click)="toggleCatering($event)"
+            class="flex items-center gap-1 text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out focus:outline-none"
           >
             Catering Services
             <svg
               class="w-3.5 h-3.5 transition-transform duration-500 ease-in-out"
-              [class.rotate-180]="isCateringOpen"
+              [class.rotate-180]="isCateringOpen()"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -58,37 +65,44 @@
 
           <div
             class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500 ease-in-out"
-            [class.opacity-0]="!isCateringOpen"
-            [class.-translate-y-2]="!isCateringOpen"
-            [class.pointer-events-none]="!isCateringOpen"
-            [class.opacity-100]="isCateringOpen"
-            [class.translate-y-0]="isCateringOpen"
+            [class.opacity-0]="!isCateringOpen()"
+            [class.-translate-y-2]="!isCateringOpen()"
+            [class.pointer-events-none]="!isCateringOpen()"
+            [class.opacity-100]="isCateringOpen()"
+            [class.translate-y-0]="isCateringOpen()"
+            (mouseenter)="onPanelEnter()"
+            (mouseleave)="onPanelLeave()"
           >
             <a
+              #cateringItem
               routerLink="/canteen-catering-services"
               routerLinkActive="active"
               class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
               >Canteen Catering Services</a
             >
             <a
+              #cateringItem
               routerLink="/mobile-catering"
               routerLinkActive="active"
               class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
               >Mobile Catering</a
             >
             <a
+              #cateringItem
               routerLink="/corporate-buffet-catering"
               routerLinkActive="active"
               class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
               >Corporate Buffet Catering</a
             >
             <a
+              #cateringItem
               routerLink="/event-equipment-rental"
               routerLinkActive="active"
               class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
               >Event Equipment Rental</a
             >
             <a
+              #cateringItem
               routerLink="/food-box-and-refreshments"
               routerLinkActive="active"
               class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
@@ -98,7 +112,7 @@
         </div>
 
         <a
-          routerLink="/latest-events"
+          routerLink="/latest-event"
           routerLinkActive="text-[#B00000]"
           class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
           >Latest Events</a
@@ -110,7 +124,7 @@
           >Career</a
         >
         <a
-          routerLink="/contact-us"
+          routerLink="/contact"
           routerLinkActive="text-[#B00000]"
           class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
           >Contact Us</a
@@ -120,24 +134,24 @@
       <!-- Mobile hamburger -->
       <button
         type="button"
-        [attr.aria-expanded]="isMenuOpen"
+        [attr.aria-expanded]="isMenuOpen()"
         aria-label="Toggle navigation menu"
         (click)="toggleMenu()"
         class="lg:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded-full hover:bg-black/5 transition duration-300 ease-in-out ml-auto"
       >
         <span
           class="block w-5 h-[2px] bg-gray-800 transition duration-300 ease-in-out"
-          [class.rotate-45]="isMenuOpen"
-          [class.translate-y-[7px]]="isMenuOpen"
+          [class.rotate-45]="isMenuOpen()"
+          [class.translate-y-[7px]]="isMenuOpen()"
         ></span>
         <span
           class="block w-5 h-[2px] bg-gray-800 transition duration-300 ease-in-out"
-          [class.opacity-0]="isMenuOpen"
+          [class.opacity-0]="isMenuOpen()"
         ></span>
         <span
           class="block w-5 h-[2px] bg-gray-800 transition duration-300 ease-in-out"
-          [class.-rotate-45]="isMenuOpen"
-          [class.-translate-y-[7px]]="isMenuOpen"
+          [class.-rotate-45]="isMenuOpen()"
+          [class.-translate-y-[7px]]="isMenuOpen()"
         ></span>
       </button>
     </div>
@@ -146,31 +160,31 @@
     <div
       class="lg:hidden fixed inset-0 top-0 bg-black/30 -z-10 transition-opacity duration-300 ease-in-out"
       style="height: 100vh"
-      [class.opacity-0]="!isMenuOpen"
-      [class.pointer-events-none]="!isMenuOpen"
-      [class.opacity-100]="isMenuOpen"
-      (click)="closeMenu()"
+      [class.opacity-0]="!isMenuOpen()"
+      [class.pointer-events-none]="!isMenuOpen()"
+      [class.opacity-100]="isMenuOpen()"
+      (click)="closeMobileMenu()"
     ></div>
 
     <!-- Mobile slide-down menu -->
     <div
       class="lg:hidden mx-auto w-[90%] md:w-[80%] bg-white/95 backdrop-blur-md rounded-3xl shadow-xl mt-2 px-6 py-4 transition-all duration-300 ease-in-out"
-      [class.opacity-0]="!isMenuOpen"
-      [class.-translate-y-2]="!isMenuOpen"
-      [class.pointer-events-none]="!isMenuOpen"
-      [class.opacity-100]="isMenuOpen"
-      [class.translate-y-0]="isMenuOpen"
+      [class.opacity-0]="!isMenuOpen()"
+      [class.-translate-y-2]="!isMenuOpen()"
+      [class.pointer-events-none]="!isMenuOpen()"
+      [class.opacity-100]="isMenuOpen()"
+      [class.translate-y-0]="isMenuOpen()"
     >
       <div class="flex flex-col gap-3 text-base">
         <a
           routerLink="/"
-          (click)="closeMenu()"
+          (click)="closeMobileMenu()"
           class="text-gray-700 transition duration-300 ease-in-out"
           >Home</a
         >
         <a
-          routerLink="/about-us"
-          (click)="closeMenu()"
+          routerLink="/about"
+          (click)="closeMobileMenu()"
           class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
           >About Metro Catering</a
         >
@@ -184,7 +198,7 @@
             Catering Services
             <svg
               class="w-4 h-4 transition-transform duration-500 ease-in-out"
-              [class.rotate-180]="isMobileCateringOpen"
+              [class.rotate-180]="isMobileCateringOpen()"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -196,41 +210,41 @@
 
           <div
             class="grid transition-[grid-template-rows] duration-500 ease-in-out"
-            [style.grid-template-rows]="isMobileCateringOpen ? '1fr' : '0fr'"
+            [style.grid-template-rows]="isMobileCateringOpen() ? '1fr' : '0fr'"
           >
             <div class="overflow-hidden">
               <div class="flex flex-col mt-2 rounded-xl overflow-hidden bg-black/[0.03]">
                 <a
                   routerLink="/canteen-catering-services"
-                  (click)="closeMenu()"
+                  (click)="closeMobileMenu()"
                   routerLinkActive="active"
                   class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
                   >Canteen Catering Services</a
                 >
                 <a
                   routerLink="/mobile-catering"
-                  (click)="closeMenu()"
+                  (click)="closeMobileMenu()"
                   routerLinkActive="active"
                   class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
                   >Mobile Catering</a
                 >
                 <a
                   routerLink="/corporate-buffet-catering"
-                  (click)="closeMenu()"
+                  (click)="closeMobileMenu()"
                   routerLinkActive="active"
                   class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
                   >Corporate Buffet Catering</a
                 >
                 <a
                   routerLink="/event-equipment-rental"
-                  (click)="closeMenu()"
+                  (click)="closeMobileMenu()"
                   routerLinkActive="active"
                   class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
                   >Event Equipment Rental</a
                 >
                 <a
                   routerLink="/food-box-and-refreshments"
-                  (click)="closeMenu()"
+                  (click)="closeMobileMenu()"
                   routerLinkActive="active"
                   class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
                   >Food Box & Refreshments</a
@@ -241,20 +255,20 @@
         </div>
 
         <a
-          routerLink="/latest-events"
-          (click)="closeMenu()"
+          routerLink="/latest-event"
+          (click)="closeMobileMenu()"
           class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
           >Latest Events</a
         >
         <a
           routerLink="/career"
-          (click)="closeMenu()"
+          (click)="closeMobileMenu()"
           class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
           >Career</a
         >
         <a
-          routerLink="/contact-us"
-          (click)="closeMenu()"
+          routerLink="/contact"
+          (click)="closeMobileMenu()"
           class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
           >Contact Us</a
         >

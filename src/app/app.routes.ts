@@ -4,12 +4,15 @@ import { Home } from './pages/home/home';
 import { About } from './pages/about/about';
 import { Services } from './pages/services/services';
 import { Contact } from './pages/contact/contact';
-import { Insight } from './insight/insight';
+import { LatestEvent } from './pages/latest-event/latest-event';
+import { Career } from './pages/career/career';
+import path from 'path';
 
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'about', component: About },
   { path: 'services', component: Services },
   { path: 'contact', component: Contact },
-  { path: 'insight', component: Insight },
+  { path: 'latest-event', component: LatestEvent },
+  { path: 'career', component: Career },
 ];
