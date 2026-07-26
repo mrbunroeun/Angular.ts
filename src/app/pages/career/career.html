@@ -1,1 +1,181 @@
-<p>career works!</p>
+<app-hero
+  [sectionLabel]="heroSectionLabel"
+  [heading]="heroHeading"
+  [description]="heroDescription"
+  [buttons]="heroButtons"
+></app-hero>
+
+<!-- input data part -->
+<section class="w-full bg-[#f3f0e9] py-16 px-4">
+  <div class="max-w-4xl mx-auto">
+    <h2
+      class="text-center text-[#a80000] font-bold text-[28px] sm:text-[36px] md:text-[36px] mb-12"
+    >
+      Application Form
+    </h2>
+
+    <form
+      #applicationForm="ngForm"
+      (ngSubmit)="onSubmit(applicationForm)"
+      class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8"
+      novalidate
+    >
+      <!-- Full Name -->
+      <div>
+        <label class="block text-[#a80000] font-semibold text-[15px] mb-2">Full Name</label>
+        <div class="relative">
+          <input
+            type="text"
+            name="full_name"
+            placeholder="Your Name"
+            [(ngModel)]="fullName"
+            #fullNameRef="ngModel"
+            required
+            minlength="2"
+            maxlength="100"
+            pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s\.\-']+"
+            title="Letters, spaces, hyphens, and apostrophes only"
+            class="w-full rounded-full bg-white px-6 py-4 pr-12 text-[15px] text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#a80000]"
+            [ngClass]="{ 'ring-2 ring-red-500': fullNameRef.invalid && fullNameRef.touched }"
+          />
+        </div>
+        @if (fullNameRef.invalid && fullNameRef.touched) {
+          <p class="text-red-600 text-[13px] mt-1 ml-2">
+            Please enter a valid name (letters, spaces, hyphens, apostrophes).
+          </p>
+        }
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-[#a80000] font-semibold text-[15px] mb-2">Email</label>
+        <div class="relative">
+          <input
+            type="email"
+            name="email"
+            placeholder="example@gmail.com"
+            [(ngModel)]="email"
+            #emailRef="ngModel"
+            required
+            maxlength="150"
+            class="w-full rounded-full bg-white px-6 py-4 pr-12 text-[15px] text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#a80000]"
+            [ngClass]="{ 'ring-2 ring-red-500': emailRef.invalid && emailRef.touched }"
+          />
+        </div>
+        @if (emailRef.invalid && emailRef.touched) {
+          <p class="text-red-600 text-[13px] mt-1 ml-2">Please enter a valid email address.</p>
+        }
+      </div>
+
+      <!-- Phone Number -->
+      <div>
+        <label class="block text-[#a80000] font-semibold text-[15px] mb-2">Phone Number</label>
+        <div class="relative">
+          <input
+            type="tel"
+            name="phone_number"
+            placeholder="Phone Number"
+            [(ngModel)]="phoneNumber"
+            #phoneRef="ngModel"
+            required
+            pattern="[0-9\+\-\s]{8,15}"
+            title="8–15 digits, may include +, -, and spaces"
+            class="w-full rounded-full bg-white px-6 py-4 pr-12 text-[15px] text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#a80000]"
+            [ngClass]="{ 'ring-2 ring-red-500': phoneRef.invalid && phoneRef.touched }"
+          />
+        </div>
+        @if (phoneRef.invalid && phoneRef.touched) {
+          <p class="text-red-600 text-[13px] mt-1 ml-2">
+            Please enter a valid phone number (8–15 digits).
+          </p>
+        }
+      </div>
+
+      <!-- Position (custom dropdown, Angular-driven) -->
+      <div>
+        <label class="block text-[#a80000] font-semibold text-[15px] mb-2">Position</label>
+
+        <div
+          class="relative"
+          #positionDropdown
+          (document:click)="onDocumentClick($event, positionDropdown)"
+        >
+          <button
+            type="button"
+            (click)="toggleDropdown()"
+            (keydown)="onDropdownKeydown($event)"
+            aria-haspopup="listbox"
+            [attr.aria-expanded]="isDropdownOpen"
+            class="w-full flex items-center justify-between rounded-full bg-white px-6 py-4 text-[15px] text-left focus:outline-none focus:ring-2 focus:ring-[#a80000] transition"
+            [ngClass]="{
+              'text-gray-400': !position,
+              'text-gray-700': position,
+              'ring-2 ring-red-500': positionError,
+            }"
+          >
+            <span class="truncate pr-2">{{ positionLabel }}</span>
+            <svg
+              class="w-3 h-3 fill-[#a80000] shrink-0 transition-transform duration-200"
+              [ngClass]="{ 'rotate-90': isDropdownOpen }"
+              viewBox="0 0 8 12"
+            >
+              <path d="M0 0l8 6-8 6z" />
+            </svg>
+          </button>
+
+          @if (isDropdownOpen) {
+            <ul
+              class="absolute z-20 mt-2 w-full rounded-2xl bg-white shadow-lg overflow-hidden py-2 origin-top transition duration-150 ease-out"
+              role="listbox"
+            >
+              @for (option of positionOptions; track option.value; let i = $index) {
+                <li
+                  class="px-6 py-3 text-[15px] cursor-pointer transition truncate"
+                  role="option"
+                  [attr.aria-selected]="option.value === position"
+                  [ngClass]="
+                    i === activeIndex || option.value === position
+                      ? 'bg-[#f3f0e9] text-[#a80000] font-semibold'
+                      : 'text-gray-700'
+                  "
+                  (click)="selectOption(option)"
+                  (mouseenter)="activeIndex = i"
+                >
+                  {{ option.label }}
+                </li>
+              }
+            </ul>
+          }
+        </div>
+
+        @if (positionError) {
+          <p class="text-red-600 text-[13px] mt-1 ml-2">Please select a position.</p>
+        }
+      </div>
+    </form>
+
+    <div class="flex items-center pt-[2rem] pb-[1rem] justify-center">
+      <p class="block text-[#a80000] font-semibold sm:text-[20px] text-[15px] mb-2">
+        Please attach your CV and cover letter in Telegram
+      </p>
+    </div>
+
+    <div class="md:col-span-2 flex justify-center pt-4">
+      <button
+        type="button"
+        (click)="submitToTelegram()"
+        class="bg-[#a80000] text-white hover:text-[#a80000] font-semibold text-[15px] rounded-full px-12 py-4 hover:bg-[#ffffff] transition focus:outline-none focus:ring-2 focus:ring-[#a80000] focus:ring-offset-2 cursor-pointer"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<app-footer
+  [ctaHeading]="ctaHeading"
+  [ctaSubtext]="ctaSubtext"
+  [ctaButtonText]="ctaButtonText"
+  [ctaLink]="ctaLink"
+></app-footer>

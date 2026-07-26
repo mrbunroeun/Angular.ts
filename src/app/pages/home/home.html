@@ -83,6 +83,13 @@
         Our <span class="text-[#A80000] font-bold">Core Services</span>
       </h2>
     </div>
+    @for (service of coreServices; track service.title) {
+      <app-our-core-services
+        [number]="service.number"
+        [title]="service.title"
+        [image]="service.image"
+      ></app-our-core-services>
+    }
 
     <div class="flex justify-center mt-8 sm:mt-10 lg:mt-12">
       <a

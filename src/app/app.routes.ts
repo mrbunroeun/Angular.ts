@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { About } from './pages/about/about';
 import { Services } from './pages/services/services';
-import { Contact } from './pages/contact/contact';
 import { LatestEvent } from './pages/latest-event/latest-event';
 import { Career } from './pages/career/career';
 import path from 'path';
@@ -13,6 +12,7 @@ import { CorporateBuffetCatering } from './pages/catering-services/corporate-buf
 import { EventEquipmentRental } from './pages/catering-services/event-equipment-rental/event-equipment-rental';
 import { FoodBoxAndRefreshments } from './pages/catering-services/food-box-and-refreshments/food-box-and-refreshments';
 import { LatestEventDetail } from './pages/latest-event/latest-event-detail/latest-event-detail';
+import { Contact } from './pages/contact/contact';
 
 export const routes: Routes = [
   { path: '', component: Home },

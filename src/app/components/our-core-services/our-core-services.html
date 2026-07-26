@@ -1,0 +1,28 @@
+<div
+  class="group flex flex-col w-full max-w-[260px] bg-[#ffffff] shadow-md overflow-hidden transition-colors duration-300 ease-in-out hover:bg-[#B00000]"
+>
+  <!-- Image with floating number badge -->
+  <div class="relative w-full h-[160px] mb-0.5 shrink-0">
+    <img
+      [src]="imageSrc"
+      [alt]="title"
+      class="w-full h-full object-cover bg-[#f3f0e9] pb-[5px] object-center"
+    />
+
+    <!-- Number badge -->
+    <div
+      class="absolute -bottom-6 right-6 w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center transition-colors duration-300"
+    >
+      <span class="text-[#B00000] text-xl font-semibold">{{ number }}</span>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="px-6 pt-10 pb-6 w-full">
+    <h3
+      class="text-gray-800 group-hover:text-white text-[15px] font-medium leading-snug break-words transition-colors duration-300 ease-in-out"
+    >
+      {{ title }}
+    </h3>
+  </div>
+</div>
