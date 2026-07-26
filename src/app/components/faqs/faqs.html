@@ -1,0 +1,61 @@
+<section class="font-sans max-w-5xl mx-auto px-4 py-16">
+  <!-- Title (always static, not an input) -->
+  <div class="text-center mb-10 sm:mb-12">
+    <p class="text-[#a80000] text-[20px] sm:text-[24px] leading-tight">Frequently</p>
+    <p class="text-[#a80000] text-[24px] sm:text-[32px] font-bold leading-tight">Ask Questions</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+    <!-- Left column -->
+    <div class="space-y-4">
+      @for (faq of leftFaqs; track faq.question; let i = $index) {
+        <div class="faq-item">
+          <div
+            (click)="toggle(i)"
+            class="faq-question px-5 py-4 cursor-pointer bg-[#f3f0e9] text-[#060606] text-[15px] sm:text-[18px] transition-colors duration-150 hover:bg-[#e9e4d8] active:bg-[#ddd6c4]"
+          >
+            {{ faq.question }}
+          </div>
+
+          <div
+            class="faq-answer-grid grid transition-[grid-template-rows] duration-300 ease-in-out"
+            [style.grid-template-rows]="isOpen(i) ? '1fr' : '0fr'"
+          >
+            <div class="overflow-hidden">
+              <div
+                class="px-5 py-4 mt-2 bg-[#a80000] text-[#ffffff] text-[15px] sm:text-[18px] leading-relaxed"
+              >
+                {{ faq.answer }}
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Right column -->
+    <div class="space-y-4">
+      @for (faq of rightFaqs; track faq.question; let i = $index) {
+        <div class="faq-item">
+          <div
+            (click)="toggle(i + rightIndexOffset())"
+            class="faq-question px-5 py-4 cursor-pointer bg-[#f3f0e9] text-[#060606] text-[15px] sm:text-[16px] transition-colors duration-150 hover:bg-[#e9e4d8] active:bg-[#ddd6c4]"
+          >
+            {{ faq.question }}
+          </div>
+
+          <div
+            class="faq-answer-grid grid transition-[grid-template-rows] duration-300 ease-in-out"
+            [style.grid-template-rows]="isOpen(i + rightIndexOffset()) ? '1fr' : '0fr'"
+          >
+            <div class="overflow-hidden">
+              <div class="px-5 py-4 mt-2 bg-[#a80000] text-[#ffffff] text-[15px] leading-relaxed">
+                {{ faq.answer }}
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

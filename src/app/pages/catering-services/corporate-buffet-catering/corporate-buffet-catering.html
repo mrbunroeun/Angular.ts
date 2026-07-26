@@ -1,1 +1,137 @@
-<p>corporate-buffet-catering works!</p>
+<app-hero
+  [sectionLabel]="'Corporate Buffet Catering'"
+  [heading]="'Corporate Buffet Catering Services in Cambodia'"
+  [description]="'Metro Catering provides professional lunch and dinner buffet experiences for companies, ministries, embassies, and organizations seeking high-quality dining services.'"
+  [buttons]="[{ text: 'Contact Us', link: '/contact-us', style: 'solid' }]"
+>
+</app-hero>
+
+<section>
+  <div
+    class="flex gap-2 justify-center bg-[#f3f0e9] pt-10 text-[#a80000] md:text-[36px] sm:text-[25px] text-[20px] font-bold"
+  >
+    <h1 class="font-normal">Buffet</h1>
+    <h1>Packages</h1>
+  </div>
+
+  <!-- Buffet Packages -->
+  <div class="bg-[#f3f0e9]">
+    <div
+      class="grid items-start justify-center gap-2 max-w-[1400px] mx-auto px-2 py-16 grid-cols-[repeat(auto-fit,180px)] sm:grid-cols-[repeat(auto-fit,190px)] md:grid-cols-[repeat(auto-fit,190px)] lg:grid-cols-[repeat(auto-fit,190px)] xl:grid-cols-[repeat(auto-fit,190px)]"
+    >
+      @for (package of packages; track package.number) {
+        <app-products-package
+          [number]="package.number"
+          [image]="package.image"
+          [title]="package.title"
+          [price]="package.price"
+          [note]="package.note"
+          [includes]="package.includes"
+        >
+        </app-products-package>
+      }
+    </div>
+  </div>
+
+  <!-- Who We Serve -->
+  <section
+    class="relative w-full sm:mb-[10rem] mb-[5rem] max-w-full md:max-w-[80%] mx-auto font-sans"
+  >
+    <div class="grid grid-cols-2 min-h-[300px]">
+      <!-- Left image panel -->
+      <div class="relative h-full overflow-hidden">
+        <img
+          src="/under_hero/food.png"
+          alt="Catering buffet spread"
+          class="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      </div>
+
+      <!-- Right red panel -->
+      <div
+        class="bg-[#a80000] flex flex-col items-center justify-center pl-8 pr-2 sm:px-8 md:px-16 py-6 md:py-0"
+      >
+        <div class="text-left w-full max-w-[200px] sm:max-w-[340px] md:max-w-[420px]">
+          <p class="text-[#ffffff] text-[20px] sm:text-[28px] md:text-[36px] font-bold mb-4">
+            Who We Serve
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
+            <ul class="space-y-1">
+              @for (item of whoWeServeLeft; track item) {
+                <li class="text-[#ffffff] text-[15px] flex gap-1"><span>•</span> {{ item }}</li>
+              }
+            </ul>
+
+            <ul class="space-y-1">
+              @for (item of whoWeServeRight; track item) {
+                <li class="text-[#ffffff] text-[15px] flex gap-1"><span>•</span> {{ item }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative rounded blob -->
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-13 h-13 md:w-18 md:h-18 rounded-full bg-[#a80000] z-10"
+    ></div>
+  </section>
+
+  <!-- Why Choose Metro Catering -->
+  <section class="relative w-full overflow-hidden">
+    <img
+      src="/home/why_choose_metro/bg_img.png"
+      alt="Metro Catering hero background"
+      class="absolute inset-0 w-full h-full object-cover object-center -z-10"
+    />
+    <div class="absolute inset-0 bg-black/60 -z-10"></div>
+
+    <div
+      class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 px-4 sm:px-8 lg:px-16 py-16 sm:py-20 lg:py-24 max-w-6xl mx-auto"
+    >
+      <div class="text-center lg:text-left shrink-0 lg:w-[340px]">
+        <h2 class="text-white text-[30px] sm:text-[36px] leading-snug">
+          Why Choose
+          <span class="block font-bold">Metro Catering?</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6 w-full">
+        @for (point of whyChooseUsPoints; track point.text) {
+          <div class="flex items-start gap-3">
+            <span
+              class="flex items-center justify-center w-6 h-6 rounded-full bg-[#A80000] shrink-0 mt-0.5"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="white"
+                class="w-3.5 h-3.5"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M16.704 5.29a1 1 0 010 1.415l-7.09 7.09a1 1 0 01-1.414 0L4.296 9.89a1 1 0 111.414-1.414l3.198 3.198 6.383-6.384a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <p class="text-white text-[14px] sm:text-[16px] leading-snug">{{ point.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Frequently Asked Questions -->
+  <app-faqs [faqs]="metroCateringFaqs"></app-faqs>
+</section>
+
+<app-footer
+  [ctaHeading]="'Looking for a long-term canteen partner?'"
+  [ctaSubtext]="'Contact our team for a customized proposal.'"
+  [ctaButtonText]="'Contact Us'"
+  [ctaLink]="'/contact-us'"
+>
+</app-footer>

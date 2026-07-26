@@ -1,0 +1,62 @@
+<app-hero
+  [sectionLabel]="'Latest Events'"
+  [heading]="'Premium Catering Services in Cambodia for Corporate, Weddings & Private Events'"
+  [description]="'Metro Catering delivers high-quality food, professional event setups, and customized catering solutions for businesses, schools, weddings, and special occasions across Cambodia.'"
+  [buttons]="[
+    { text: 'Contact Us', link: '/contact-us', style: 'solid' },
+    { text: 'View Packages', link: '/corporate-buffet-catering', style: 'solid' },
+  ]"
+>
+</app-hero>
+
+<!-- Metro Catering -->
+<section class="relative w-full bg-[#1a1a1a]">
+  <div
+    class="flex flex-col min-[1250px]:flex-row items-center gap-8 min-[1250px]:gap-10 px-6 sm:px-10 py-10 min-[1250px]:py-20 min-[1250px]:px-30"
+  >
+    <!-- Left image panel -->
+    <div class="w-full min-[1250px]:w-[45%] shrink-0">
+      <div class="relative w-full max-w-[520px] mx-auto aspect-[4/3] overflow-hidden">
+        <img
+          [src]="eventImage"
+          alt="Metro Catering"
+          class="absolute inset-0 w-full h-full object-cover object-center bg-[#cdcdcd] transition-transform duration-500 ease-in-out hover:scale-105"
+        />
+      </div>
+    </div>
+
+    <!-- Right text panel -->
+    <div class="w-full min-[1250px]:w-[55%] flex flex-col justify-center">
+      <div class="text-left w-full max-w-full mx-auto min-[1250px]:mx-0">
+        <h2
+          class="text-[#e02020] text-[20px] sm:text-[24px] min-[1250px]:text-[26px] font-bold mb-3"
+        >
+          Metro Catering
+        </h2>
+        <p class="text-white/90 text-[14px] sm:text-[15px] leading-relaxed mb-3">
+          {{ paragraphOne }}
+        </p>
+        <p class="text-white/90 text-[14px] sm:text-[15px] leading-relaxed mb-4">
+          {{ paragraphTwo }}
+        </p>
+        <a
+          href="#"
+          class="inline-flex items-center text-white text-[13px] font-medium underline underline-offset-4 hover:text-[#e02020] transition duration-300 ease-in-out"
+        >
+          Link
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Frequently Asked Questions -->
+<app-faqs [faqs]="metroCateringFaqs"></app-faqs>
+
+<app-footer
+  [ctaHeading]="footerCtaHeading"
+  [ctaSubtext]="footerCtaSubtext"
+  [ctaButtonText]="'Contact Us'"
+  [ctaLink]="'/contact-us'"
+>
+</app-footer>

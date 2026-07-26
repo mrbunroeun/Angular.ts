@@ -1,1 +1,58 @@
-<p>hero works!</p>
+<section
+  class="relative w-full flex flex-col items-center justify-center text-center px-4 py-24 md:py-52 overflow-hidden min-h-[600px] md:min-h-[700px] -mt-[0px] md:-mt-[18px]"
+>
+  <!-- Background image -->
+  <img
+    [src]="bgImageUrl"
+    alt="Metro Catering hero background"
+    class="absolute inset-0 w-full h-full object-cover object-center -z-10"
+  />
+
+  <!-- Dark overlay for text readability -->
+  <div class="absolute inset-0 bg-black/50 -z-10"></div>
+
+  <ng-container *ngIf="sectionLabel; else wordmark">
+    <!-- Small red label (e.g. "Latest Events") -->
+    <p class="text-[#A80000] font-bold text-[20px] md:text-[28px] mt-[54px] md:mt-[58px]">
+      {{ sectionLabel }}
+    </p>
+  </ng-container>
+
+  <ng-template #wordmark>
+    <!-- METRO wordmark with flanking lines -->
+    <div
+      class="flex flex-row items-center justify-center gap-4 md:gap-6 mb-2 mt-[54px] md:mt-[58px]"
+    >
+      <span class="h-px w-16 md:w-24 bg-white/70"></span>
+      <div class="flex flex-col items-center">
+        <h2 class="text-[#A80000] font-bold text-[24px] md:text-[36px] tracking-[0.3em]">
+          {{ badge }}
+        </h2>
+        <p class="text-white text-[14px] tracking-[0.35em] -mt-1">
+          {{ badgeSub }}
+        </p>
+      </div>
+      <span class="h-px w-16 md:w-24 bg-white/70"></span>
+    </div>
+  </ng-template>
+
+  <!-- Main heading -->
+  <h1 class="text-white font-semibold text-[30px] md:text-[48px] leading-tight mt-8 max-w-5xl">
+    {{ heading }}
+  </h1>
+
+  <!-- Description -->
+  <p class="text-white/90 sm:text-[25px] text-[14px] mt-6 max-w-5xl leading-relaxed">
+    {{ description }}
+  </p>
+
+  <!-- Buttons -->
+  <div
+    class="grid mx-auto justify-items-center gap-4 mt-8 w-full max-w-[420px]"
+    [ngClass]="gridColsClass"
+  >
+    <a *ngFor="let button of buttons" [href]="button.link ?? '#'" [class]="buttonClass(button)">
+      {{ button.text }}
+    </a>
+  </div>
+</section>

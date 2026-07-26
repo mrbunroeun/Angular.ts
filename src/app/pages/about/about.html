@@ -1,1 +1,226 @@
-<p>about works!</p>
+<!-- TODO: replace with real <app-hero-section> component once built, passing the same data via @Input()s -->
+<!--
+<app-hero-section
+  sectionLabel="About Metro Catering"
+  heading="Premium Catering Services in Cambodia for Corporate, Weddings & Private Events"
+  description="Metro Catering delivers high-quality food, professional event setups, and customized catering solutions for businesses, schools, weddings, and special occasions across Cambodia."
+  [buttons]="[{ text: 'Contact Us', link: '/contact-us', style: 'solid' }]">
+</app-hero-section>
+-->
+<app-hero
+  [heading]="'Book Your Wedding Catering Today'"
+  [description]="'Custom menus and full event setup for your special day.'"
+  [bgImage]="'hero_section/hero_section.png'"
+  [buttons]="[{ text: 'Get a Quote', link: '/contact', style: 'solid' }]"
+>
+</app-hero>
+
+<section>
+  <!-- Company Overview -->
+  <section class="relative w-full">
+    <div class="grid grid-cols-2 h-[400px] md:h-[500px]">
+      <!-- Left red panel -->
+      <div
+        class="bg-[#A80000] flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-6 md:py-0"
+      >
+        <div class="text-left w-full max-w-[280px] sm:max-w-[340px] md:max-w-[420px]">
+          <p class="text-white sm:text-[36px] text-[20px] font-semibold">Company</p>
+          <h2 class="text-white sm:text-[36px] text-[20px] font-bold mt-1 mb-2">Overview</h2>
+          <p class="text-white/90 sm:text-[16px] text-[13px] leading-snug mb-3">
+            Introduce Metro Catering as a trusted Cambodian catering company specializing in
+            corporate dining and event services.
+          </p>
+          <a
+            routerLink="/contact-us"
+            class="inline-flex items-center justify-center bg-black hover:bg-[#ffffff] active:bg-gray-700 text-white hover:text-[#000000] text-[14px] font-medium px-2 py-2.5 min-h-[44px] md:px-6 md:py-2.5 rounded-full w-fit transition duration-300 ease-in-out"
+          >
+            Request Quotation
+          </a>
+        </div>
+      </div>
+
+      <!-- Right image panel -->
+      <div class="relative h-full overflow-hidden">
+        <img
+          src="/home/our_core_services/event_rental_setup.png"
+          alt="Metro Catering food"
+          class="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      </div>
+    </div>
+
+    <!-- Decorative rounded blob blending into page background -->
+    <div
+      class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-17 h-17 md:w-25 md:h-25 rounded-full bg-[#a80000] z-10"
+    ></div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="relative w-full">
+    <div class="grid grid-cols-2 h-[400px] md:h-[500px]">
+      <!-- Left panel: Mission -->
+      <div class="bg-[#F3F0E9] flex items-center justify-center px-4 sm:px-8 md:px-16 py-6 md:py-0">
+        <div
+          class="flex items-start gap-3 sm:gap-4 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[420px]"
+        >
+          <img
+            src="/about_us/icons/mision.svg"
+            alt="Mission icon"
+            class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 shrink-0"
+          />
+          <div>
+            <h3
+              class="text-[#A80000] text-[18px] sm:text-[26px] md:text-[36px] font-bold mb-1 sm:mb-2"
+            >
+              Mission
+            </h3>
+            <p class="text-gray-700 text-[13px] sm:text-[16px] md:text-[18px] leading-snug">
+              To deliver safe, delicious, and professionally managed catering experiences that bring
+              people together.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right panel: Vision -->
+      <div
+        class="relative bg-[#A80000] flex items-center justify-center px-4 sm:px-8 md:px-16 py-6 md:py-0"
+      >
+        <!-- Decorative rounded blob blending into the section above -->
+        <div
+          class="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-13 h-13 md:w-18 md:h-18 rounded-full bg-[#F3F0E9] hidden"
+        ></div>
+
+        <div
+          class="flex items-start gap-3 sm:gap-4 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[420px]"
+        >
+          <img
+            src="/about_us/icons/vision.svg"
+            alt="Vision icon"
+            class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 shrink-0"
+          />
+          <div>
+            <h3 class="text-white text-[18px] sm:text-[26px] md:text-[36px] font-bold mb-1 sm:mb-2">
+              Vision
+            </h3>
+            <p class="text-white/90 text-[13px] sm:text-[16px] md:text-[18px] leading-snug">
+              To become Cambodia's leading corporate and event catering provider.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Core Values -->
+  <section class="py-16 max-w-[600px] mx-auto px-4 text-center font-sans">
+    <!-- Top icon + heading -->
+    <img
+      src="/about_us/our_core_values/our_core_values.svg"
+      alt="Core Values icon"
+      class="w-10 h-10 mx-auto mb-2"
+    />
+    <h2 class="text-[20px] text-[#A80000] font-light sm:text-[36px] mb-10 sm:mb-12">
+      Core <span class="font-bold text-[#A80000]">Values</span>
+    </h2>
+
+    <!-- Cards -->
+    <div class="flex flex-wrap justify-center gap-5 sm:gap-6 max-w-4xl mx-auto">
+      @for (value of coreValues; track value.label) {
+        <div class="bg-[#F3F0E9] rounded-xl w-[150px] sm:w-[170px] pt-8 pb-5 px-3">
+          <img
+            [src]="'/about_us/our_core_values/' + value.icon"
+            [alt]="value.label + ' icon'"
+            class="w-14 h-14 mx-auto -mt-14 mb-3"
+          />
+          <p class="text-gray-800 pt-[1.5rem] text-[15px] sm:text-[18px]">{{ value.label }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Our Facilities -->
+  <section
+    class="relative py-16 px-4 bg-cover bg-center font-sans"
+    style="background-image: url('/home/why_choose_metro/bg_img.png')"
+  >
+    <!-- dark overlay so white text/cards stand out -->
+    <div class="absolute inset-0 bg-black/60"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto text-center">
+      <h2 class="text-[#FFFFFF] text-[20px] sm:text-[36px] font-bold mb-8 sm:mb-10">
+        Our Facilities
+      </h2>
+
+      <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
+        @for (facility of facilities; track facility.label) {
+          <div class="bg-[#A80000] rounded-xl w-[150px] sm:w-[170px] py-8 px-3">
+            <img
+              [src]="'/about_us/our_facilities/' + facility.icon"
+              [alt]="facility.label + ' icon'"
+              class="w-10 h-10 mx-auto mb-4 brightness-0 invert"
+            />
+            <p class="text-[#FFFFFF] text-[15px] leading-tight">
+              {{ facility.label }}
+            </p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Food Insights -->
+  <section
+    class="relative sm:mb-[10rem] mb-[5rem] w-full max-w-full md:max-w-[80%] mx-auto font-sans"
+  >
+    <div class="grid grid-cols-2 min-h-[300px]">
+      <!-- Left image panel -->
+      <div class="relative h-full overflow-hidden">
+        <img
+          src="/under_hero/food.png"
+          alt="Catering buffet spread"
+          class="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      </div>
+
+      <!-- Right red panel -->
+      <div
+        class="bg-[#A80000] flex flex-col items-center justify-center pl-8 pr-2 sm:px-8 md:px-16 py-6 md:py-0"
+      >
+        <div class="text-left w-full max-w-[200px] sm:max-w-[340px] md:max-w-[420px]">
+          <p class="text-[#ffffff] text-[20px] sm:text-[28px] md:text-[36px] font-semibold">
+            Food Insights
+          </p>
+          <p
+            class="text-[#ffffff] text-[15px] sm:text-[18px] md:text-[20px] font-bold mb-1 md:mb-2"
+          >
+            Featured Articles:
+          </p>
+          <ul
+            class="text-[#ffffff]/90 text-[15px] sm:text-[15px] md:text-[14px] leading-snug md:leading-relaxed space-y-0.5 md:space-y-1 list-disc pl-3 md:pl-4"
+          >
+            <li>How to Choose the Right Catering Service</li>
+            <li>Buffet vs Food Box: Which is Better?</li>
+            <li>Planning Corporate Events with Catering Services</li>
+            <li>Wedding Catering Checklist</li>
+            <li>Healthy Refreshment Ideas for Meetings</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative rounded blob blending into page background -->
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-13 h-13 md:w-18 md:h-18 rounded-full bg-[#a80000] z-10"
+    ></div>
+  </section>
+</section>
+
+<app-footer
+  ctaHeading="Ready to plan your event?"
+  ctaSubtext=""
+  ctaButtonText="Contact Us"
+  ctaLink="/contact-us"
+>
+  />
+</app-footer>
