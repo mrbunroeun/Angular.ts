@@ -1,7 +1,7 @@
 <section class="h-full font-sans">
   <!-- Hero section -->
   <section
-    class="relative w-full flex flex-col items-center justify-center text-center px-4 py-24 md:py-32 overflow-hidden min-h-[600px] md:min-h-[700px] -mt-[54px] md:-mt-[58px]"
+    class="relative w-full flex flex-col items-center justify-center text-center px-4 py-24 md:py-32 overflow-hidden min-h-[500px] sm:min-h-[700px] md:min-h-[900px] -mt-[54px] md:-mt-[58px]"
   >
     <img
       src="hero_section/hero_section.png"
@@ -83,13 +83,20 @@
         Our <span class="text-[#A80000] font-bold">Core Services</span>
       </h2>
     </div>
-    @for (service of coreServices; track service.title) {
-      <app-our-core-services
-        [number]="service.number"
-        [title]="service.title"
-        [image]="service.image"
-      ></app-our-core-services>
-    }
+
+    <div
+      class="grid mx-auto w-full max-w-[1564px] justify-center gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+    >
+      @for (service of coreServices; track service.title) {
+        <app-our-core-services
+          [number]="service.number"
+          [title]="service.title"
+          [image]="service.image"
+        ></app-our-core-services>
+      }
+    </div>
+
+   
 
     <div class="flex justify-center mt-8 sm:mt-10 lg:mt-12">
       <a

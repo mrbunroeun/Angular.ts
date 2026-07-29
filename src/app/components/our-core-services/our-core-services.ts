@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,7 +13,8 @@ export class OurCoreServices {
   @Input() title = 'Service Title';
   @Input() image: string | null = null;
 
-  /** Mirrors Blade's `$image ? asset($image) : asset('placeholder.png')` */
+  @HostBinding('class') hostClass = 'block h-full';
+
   get imageSrc(): string {
     return this.image ? `/${this.image}` : '/placeholder.png';
   }
