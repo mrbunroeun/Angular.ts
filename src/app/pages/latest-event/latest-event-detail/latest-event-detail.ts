@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Footer } from '../../../components/footer/footer';
 import { Hero } from '../../../components/hero/hero';
 import { Faqs, Faq } from '../../../components/faqs/faqs';
@@ -10,10 +11,29 @@ import { Faqs, Faq } from '../../../components/faqs/faqs';
   templateUrl: './latest-event-detail.html',
   styleUrl: './latest-event-detail.css',
 })
-export class LatestEventDetail {
-  // NOTE: source Blade used asset('') — an empty image path, likely a placeholder
-  // never filled in. Left empty here; fill in with the real image path.
+export class LatestEventDetail implements OnInit {
+  private readonly eventImages: string[] = [
+    '/latest_events/first_img.png',
+    '/latest_events/second_img.png',
+    '/latest_events/third_img.png',
+    '/latest_events/fourth_img.png',
+    '/latest_events/fith_img.png',
+    '/latest_events/sixth_img.png',
+    '/latest_events/seven_img.png',
+    '/latest_events/image.png',
+  ];
+
   eventImage = '';
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = Number(params.get('id'));
+      const index = id - 1;
+      this.eventImage = this.eventImages[index] ?? this.eventImages[0];
+    });
+  }
 
   paragraphOne =
     'Trusted by companies, organizations, and families, Metro Catering provides complete catering and event solutions from food preparation and buffet services to equipment rental and venue setup. Trusted by companies, organizations, and families, Metro Catering provides complete catering and event solutions from food preparation and buffet rental and venue setup. Catering and event solutions from food preparation and buffet services to equipment rental and venue setup. Trusted by companies, organizations, and families, Metro Catering provides complete catering and event solutions from food preparation and buffet services to equipment rental and venue setup.';
@@ -40,7 +60,6 @@ export class LatestEventDetail {
     { question: 'What happens if additional guests arrive on the event day?', answer: '-' },
   ];
 
-  // NOTE: whitespace/indentation cleaned from the source Blade ctaSubtext string
   footerCtaHeading = 'Need Food Boxes or Refreshments for Your Next Event?';
   footerCtaSubtext =
     'Whether you are organizing a government workshop, corporate seminar, school activity, or executive meeting, Metro Catering provides reliable and professional catering solutions tailored to your needs.';

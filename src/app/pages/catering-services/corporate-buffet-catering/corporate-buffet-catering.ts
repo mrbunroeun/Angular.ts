@@ -28,7 +28,7 @@ export class CorporateBuffetCatering {
   packages: Package[] = [
     {
       number: '01',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/corporate_buffet_catering.png',
       title: 'Standard Buffet',
       price: '$10/person',
       note: '(Minimum 50 participants)',
@@ -36,7 +36,7 @@ export class CorporateBuffetCatering {
     },
     {
       number: '02',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/event_rental_setup.png',
       title: 'Corporate Buffet',
       price: '$15/person',
       note: '(Minimum 50 participants)',
@@ -44,7 +44,7 @@ export class CorporateBuffetCatering {
     },
     {
       number: '03',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/food_box_light_refreshment_catering.png',
       title: 'Standard Buffet', // NOTE: same title as package 01 in the source Blade — likely meant "Premium Buffet"
       price: '$20/person',
       note: '(Minimum 50 participants)',

@@ -14,37 +14,37 @@
     class="grid items-stretch justify-center gap-4 max-w-[1300px] mx-auto grid-cols-2 sm:grid-cols-3 md:grid-cols-4"
   >
     @for (package of packages; track package.number) {
-      <div class="font-sans bg-[#f3f0e9] overflow-hidden shadow-sm h-full flex flex-col">
-        <!-- Image with number badge -->
-        <div class="relative bg-[#ffffff] pb-[5px] shrink-0">
-          <img
-            [src]="package.image"
-            [alt]="package.title"
-            class="w-full h-[160px] md:h-[130px] object-cover bg-[#d6d6d6]"
-          />
-          <div
-            class="absolute -bottom-5 right-4 w-11 h-11 rounded-full bg-[#a80000] shadow-md flex items-center justify-center"
-          >
-            <span class="text-white text-[15px] font-semibold">{{ package.number }}</span>
-          </div>
-        </div>
-
-        <!-- Title + description + button -->
-        <div class="px-5 pt-8 pb-6 flex-grow flex flex-col">
-          <p class="text-[#060606] text-[17px] font-bold leading-snug mb-3">{{ package.title }}</p>
-          <p class="text-[#060606] text-[14px] leading-relaxed mb-6">{{ package.description }}</p>
-
-          <div class="mt-auto flex justify-center">
-            <a
-              routerLink="/latest-events-detail"
-              class="inline-block bg-[#a80000] text-white hover:text-[#a80000] hover:bg-white text-[14px] font-semibold rounded-full sm:px-8 px-4 py-2.5 transition-colors"
-            >
-              Read More
-            </a>
-          </div>
-        </div>
+  <div class="font-sans bg-[#f3f0e9] overflow-hidden shadow-sm h-full flex flex-col">
+    <!-- Image with number badge -->
+    <div class="relative bg-[#ffffff] pb-[5px] shrink-0">
+      <img
+        [src]="package.image"
+        [alt]="package.title"
+        class="w-full h-[160px] md:h-[130px] object-cover bg-[#d6d6d6]"
+      />
+      <div
+        class="absolute -bottom-5 right-4 w-11 h-11 rounded-full bg-[#a80000] shadow-md flex items-center justify-center"
+      >
+        <span class="text-white text-[15px] font-semibold">{{ package.number }}</span>
       </div>
-    }
+    </div>
+
+    <!-- Title + description + button -->
+    <div class="px-5 pt-8 pb-6 flex-grow flex flex-col">
+      <p class="text-[#060606] text-[17px] font-bold leading-snug mb-3">{{ package.title }}</p>
+      <p class="text-[#060606] text-[14px] leading-relaxed mb-6">{{ package.description }}</p>
+
+      <div class="mt-auto flex justify-center">
+        <a
+          [routerLink]="package.link"
+          class="inline-block bg-[#a80000] text-white hover:text-[#a80000] hover:bg-white text-[14px] font-semibold rounded-full sm:px-8 px-4 py-2.5 transition-colors"
+        >
+          Read More
+        </a>
+      </div>
+    </div>
+  </div>
+}
   </div>
 </div>
 

@@ -20,13 +20,24 @@ interface EventCard {
   styleUrl: './latest-event.css',
 })
 export class LatestEvent {
+  private readonly eventImages: string[] = [
+    '/latest_events/first_img.png',
+    '/latest_events/second_img.png',
+    '/latest_events/third_img.png',
+    '/latest_events/fourth_img.png',
+    '/latest_events/fith_img.png',
+    '/latest_events/sixth_img.png',
+    '/latest_events/seven_img.png',
+    '/latest_events/image.png',
+  ];
+
   packages: EventCard[] = Array.from({ length: 8 }, (_, i) => ({
     number: String(i + 1).padStart(2, '0'),
-    image: '/catering_services/menu/lorem_insume.png',
+    image: this.eventImages[i],
     title: 'Lorem Insume',
     description:
       'Metro Catering provides ready-to-serve food boxes and coffee break refreshments designed for organizations that require efficient meal distribution without compromising quality and presentation.',
-    link: '/latest-events-detail',
+    link: `/latest-events-detail/${i + 1}`,
   }));
 
   metroCateringFaqs: Faq[] = [

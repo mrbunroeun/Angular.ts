@@ -27,4 +27,10 @@ export const routes: Routes = [
   { path: 'event-equipment-rental', component: EventEquipmentRental },
   { path: 'food-box-and-refreshments', component: FoodBoxAndRefreshments },
   { path: 'latest-events-detail', component: LatestEventDetail },
+  {
+    path: 'latest-events-detail/:id',
+    component: LatestEventDetail,
+  },
 ];
+
+

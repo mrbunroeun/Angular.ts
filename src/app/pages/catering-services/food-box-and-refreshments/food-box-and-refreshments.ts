@@ -53,7 +53,7 @@ export class FoodBoxAndRefreshments {
   packages: FoodPackage[] = [
     {
       number: '01',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/canteen_catering.png',
       title: 'Standard Food Box',
       price: '$3.50 / Person',
       note: 'Minimum: 25 Boxes',
@@ -62,7 +62,7 @@ export class FoodBoxAndRefreshments {
     },
     {
       number: '02',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/food_box_light_refreshment_catering.png',
       title: 'Standard Food Box',
       price: '$5/ Person',
       note: 'Minimum: 25 Boxes',
@@ -71,7 +71,7 @@ export class FoodBoxAndRefreshments {
     },
     {
       number: '03',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/event_rental_setup.png',
       title: 'Executive Food Box',
       price: '$8/ Person',
       note: 'Minimum: 25 Boxes',
@@ -80,7 +80,7 @@ export class FoodBoxAndRefreshments {
     },
     {
       number: '04',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/corporate_buffet_catering.png',
       title: 'Refreshment & Coffee Break Packages', // NOTE: trailing space trimmed from source Blade value
       price: 'Basic Refreshment Package $2 / Person',
       note: '',
@@ -89,7 +89,7 @@ export class FoodBoxAndRefreshments {
     },
     {
       number: '05',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/canteen_catering.png',
       title: 'Business Coffee Break',
       price: '$4 / Person',
       note: '',
@@ -98,7 +98,7 @@ export class FoodBoxAndRefreshments {
     },
     {
       number: '06',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/event_rental_setup.png',
       title: 'Premium Seminar Refreshment',
       price: '$6 / Person',
       note: '',
@@ -110,7 +110,7 @@ export class FoodBoxAndRefreshments {
   menuOptions: MenuOption[] = [
     {
       number: '01',
-      image: '/catering_services/menu/khmer_favorites.png',
+      image: 'home/our_core_services/event_rental_setup.png',
       title: 'Khmer Favorites',
       items: [
         'Chicken Amok',
@@ -123,7 +123,7 @@ export class FoodBoxAndRefreshments {
     },
     {
       number: '02',
-      image: '/catering_services/menu/international_options.png',
+      image: 'home/our_core_services/corporate_buffet_catering.png',
       title: 'International Options',
       items: [
         'Teriyaki Chicken',
@@ -136,7 +136,7 @@ export class FoodBoxAndRefreshments {
     },
     {
       number: '03',
-      image: '/catering_services/menu/snack_pastry.png',
+      image: 'home/our_core_services/event_rental_setup.png',
       title: 'Snack & Pastry Selections',
       items: [
         'Mini Sandwiches',
@@ -162,7 +162,12 @@ export class FoodBoxAndRefreshments {
     },
     {
       title: 'Schools & Universities',
-      items: ['Student programs', 'Teacher workshops', 'Graduation ceremonies', 'Academic conferences'],
+      items: [
+        'Student programs',
+        'Teacher workshops',
+        'Graduation ceremonies',
+        'Academic conferences',
+      ],
     },
     {
       title: 'NGOs & International Organizations',
@@ -225,7 +230,11 @@ export class FoodBoxAndRefreshments {
     },
     {
       title: 'University Graduation Program',
-      lines: ['Location: Battambang', 'Guests: 400 students and staff', 'Services: Standard Food Boxes'],
+      lines: [
+        'Location: Battambang',
+        'Guests: 400 students and staff',
+        'Services: Standard Food Boxes',
+      ],
     },
     {
       title: 'Corporate Leadership Seminar',
@@ -243,9 +252,15 @@ export class FoodBoxAndRefreshments {
       answer:
         'Yes. Many clients combine lunch boxes with morning and afternoon refreshment packages to provide a complete catering solution for seminars and workshops.',
     },
-    { question: 'Can Metro Catering accommodate vegetarian, halal, or allergy requirements?', answer: '-' },
+    {
+      question: 'Can Metro Catering accommodate vegetarian, halal, or allergy requirements?',
+      answer: '-',
+    },
     { question: 'Can we add our company logo to the food boxes?', answer: '-' },
-    { question: 'What is the latest time to confirm the final number of participants?', answer: '-' },
+    {
+      question: 'What is the latest time to confirm the final number of participants?',
+      answer: '-',
+    },
     { question: 'Can you deliver food boxes outside Phnom Penh?', answer: '-' },
     { question: 'What happens if additional guests arrive on the event day?', answer: '-' },
   ];

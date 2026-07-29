@@ -28,7 +28,7 @@ export class EventEquipmentRental {
   packages: EquipmentCategory[] = [
     {
       number: '01',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/canteen_catering.png',
       title: 'Tables & Chairs',
       price: '',
       note: '',
@@ -43,7 +43,7 @@ export class EventEquipmentRental {
     },
     {
       number: '02',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/food_box_light_refreshment_catering.png',
       title: 'Tents & Structures',
       price: '',
       note: '',
@@ -58,7 +58,7 @@ export class EventEquipmentRental {
     },
     {
       number: '03',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/event_rental_setup.png',
       title: 'Dining Equipment',
       price: '',
       note: '',
@@ -73,8 +73,8 @@ export class EventEquipmentRental {
     },
     {
       number: '04',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
-      title: 'Audio & Visual',
+      image: 'home/our_core_services/corporate_buffet_catering.png',
+      title: 'Standard Mobile Meal Package',
       price: '',
       note: '',
       lists: [
@@ -88,7 +88,7 @@ export class EventEquipmentRental {
     },
     {
       number: '05',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/canteen_catering.png',
       title: 'Decorations',
       price: '',
       note: '',
