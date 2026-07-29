@@ -29,7 +29,7 @@ export class MobileCatering {
   packages: Package[] = [
     {
       number: '01',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/corporate_buffet_catering.png',
       title: 'Standard Mobile Meal Package',
       price: '$5/person',
       note: '(Minimum 50 participants)',
@@ -38,7 +38,7 @@ export class MobileCatering {
     },
     {
       number: '02',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/event_rental_setup.png',
       title: 'Corporate Mobile Package',
       price: '$10/person',
       note: '(Minimum 50 participants)',
@@ -47,7 +47,7 @@ export class MobileCatering {
     },
     {
       number: '03',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/food_box_light_refreshment_catering.png',
       title: 'Food Box & Light Refreshment Catering',
       price: '$15/person',
       note: '(Minimum 50 participants)',
@@ -56,7 +56,7 @@ export class MobileCatering {
     },
     {
       number: '04',
-      image: '/catering_services/mobile_catering/corporate_mobile_package.png',
+      image: 'home/our_core_services/canteen_catering.png',
       title: 'VIP Outdoor Event Package', // NOTE: source Blade had a literal line break mid-string — joined here
       price: '$20/person',
       note: '(Minimum 50 participants)',
