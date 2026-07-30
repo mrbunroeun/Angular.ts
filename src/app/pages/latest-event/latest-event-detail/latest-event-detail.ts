@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { Footer } from '../../../components/footer/footer';
 import { Hero } from '../../../components/hero/hero';
 import { Faqs, Faq } from '../../../components/faqs/faqs';
@@ -25,7 +26,10 @@ export class LatestEventDetail implements OnInit {
 
   eventImage = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -33,6 +37,10 @@ export class LatestEventDetail implements OnInit {
       const index = id - 1;
       this.eventImage = this.eventImages[index] ?? this.eventImages[0];
     });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   paragraphOne =
