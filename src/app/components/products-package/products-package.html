@@ -1,12 +1,12 @@
 <div class="relative bg-white rounded-xl shadow-sm px-3 pt-10 pb-5 text-center">
   <!-- Package number badge -->
-  <span class="absolute top-2 left-2 text-[#A80000] text-[13px] font-bold">
+  <span class="absolute top-2 left-2 text-[#2e0073] text-[13px] font-bold">
     {{ number }}
   </span>
 
   <img [src]="image" [alt]="title" class="w-20 h-20 mx-auto object-cover rounded-full mb-3" />
 
-  <p class="text-[#a80000] font-bold text-[15px] mb-1">{{ title }}</p>
+  <p class="text-[#2e0073] font-bold text-[15px] mb-1">{{ title }}</p>
   @if (price) {
     <p class="text-[#060606] font-semibold text-[14px]">{{ price }}</p>
   }
@@ -24,7 +24,7 @@
   </ul>
 
   @if (suitableFor.length > 0) {
-    <p class="text-[11px] font-semibold text-[#a80000] mt-3 mb-1 text-left">Suitable for:</p>
+    <p class="text-[11px] font-semibold text-[#2e0073] mt-3 mb-1 text-left">Suitable for:</p>
     <ul class="text-[12px] text-gray-700 space-y-0.5 text-left">
       @for (item of suitableFor; track item) {
         <li class="flex gap-1"><span>•</span> {{ item }}</li>
@@ -33,7 +33,7 @@
   }
 
   @if (perfectFor.length > 0) {
-    <p class="text-[11px] font-semibold text-[#a80000] mt-3 mb-1 text-left">Perfect for:</p>
+    <p class="text-[11px] font-semibold text-[#2e0073] mt-3 mb-1 text-left">Perfect for:</p>
     <ul class="text-[12px] text-gray-700 space-y-0.5 text-left">
       @for (item of perfectFor; track item) {
         <li class="flex gap-1"><span>•</span> {{ item }}</li>

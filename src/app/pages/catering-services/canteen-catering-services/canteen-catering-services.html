@@ -1,14 +1,14 @@
 <app-hero
   [sectionLabel]="'Canteen Catering Services'"
   [heading]="'Professional Canteen Catering Services in Cambodia'"
-  [description]="'Metro Catering provides reliable daily meal management solutions for factories, schools, universities, hospitals, offices, and institutions across Cambodia. We deliver nutritious, hygienic, and affordable meals designed to meet the needs of large workforces and communities.'"
+  [description]="'BRWeb provides reliable daily meal management solutions for factories, schools, universities, hospitals, offices, and institutions across Cambodia. We deliver nutritious, hygienic, and affordable meals designed to meet the needs of large workforces and communities.'"
   [buttons]="[{ text: 'Contact Us', link: '/contact-us', style: 'solid' }]"
 >
 </app-hero>
 
 <section>
   <!-- What We Offer -->
-  <section class="bg-[#A80000] font-sans py-16 pt-[5rem] pb-[10rem]">
+  <section class="bg-[#2e0073] font-sans py-16 pt-[5rem] pb-[10rem]">
     <div
       class="max-w-6xl px-[3rem] mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-36"
     >
@@ -72,14 +72,14 @@
         class="bg-[#f3f0e9] flex flex-col items-center justify-center pl-8 pr-2 sm:px-8 md:px-16 py-6 md:py-0"
       >
         <div class="text-left w-full max-w-[200px] sm:max-w-[340px] md:max-w-[420px]">
-          <p class="text-[#a80000] text-[20px] sm:text-[28px] md:text-[36px] font-semibold">
+          <p class="text-[#2e0073] text-[20px] sm:text-[28px] md:text-[36px] font-semibold">
             Who We Serve
           </p>
 
           <p
             class="text-[#060606] text-[15px] sm:text-[15px] md:text-[14px] leading-snug md:leading-relaxed"
           >
-            Metro Catering provides professional canteen management and daily meal supply services
+            BRWeb provides professional canteen management and daily meal supply services
             for factories, industrial parks, schools, universities, hospitals, corporate offices,
             government institutions, and large organizations across Cambodia. We deliver nutritious,
             hygienic, and cost-effective meals tailored to workforce and community needs.
@@ -109,7 +109,7 @@
           <!-- left column -->
           <div class="text-right">
             @if (row.left) {
-              <p class="text-[#a80000] text-[20px] font-bold mb-3">{{ row.left.title }}</p>
+              <p class="text-[#2e0073] text-[20px] font-bold mb-3">{{ row.left.title }}</p>
               <p class="text-[#060606] text-[15px] font-semibold mb-1">{{ row.left.lead }}</p>
               <ul class="text-[#060606] text-[15px] space-y-0.5">
                 @for (item of row.left.items; track item) {
@@ -122,7 +122,7 @@
           <!-- right column -->
           <div class="text-left">
             @if (row.right) {
-              <p class="text-[#a80000] text-[20px] font-bold mb-3">{{ row.right.title }}</p>
+              <p class="text-[#2e0073] text-[20px] font-bold mb-3">{{ row.right.title }}</p>
               <p class="text-[#060606] text-[15px] font-semibold mb-1">{{ row.right.lead }}</p>
               <ul class="text-[#060606] text-[15px] space-y-0.5">
                 @for (item of row.right.items; track item) {
@@ -179,7 +179,7 @@
         @for (point of whyChooseUsPoints; track point.text) {
           <div class="flex items-start gap-3">
             <span
-              class="flex items-center justify-center w-6 h-6 rounded-full bg-[#A80000] shrink-0 mt-0.5"
+              class="flex items-center justify-center w-6 h-6 rounded-full bg-[#2e0073] shrink-0 mt-0.5"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

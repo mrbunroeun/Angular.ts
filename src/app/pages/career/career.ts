@@ -33,7 +33,7 @@ export class Career {
   heroSectionLabel = 'Career';
   heroHeading = 'Start Your Career With Us!';
   heroDescription =
-    'Metro Catering delivers high-quality food, professional event setups, and customized catering solutions for businesses, schools, weddings, and special occasions across Cambodia.';
+    'BRWeb delivers high-quality food, professional event setups, and customized catering solutions for businesses, schools, weddings, and special occasions across Cambodia.';
   heroButtons: HeroButton[] = [
     { text: 'Contact Us', link: '/contact-us', style: 'solid' },
     { text: 'View Packages', link: '/corporate-buffet-catering', style: 'solid' },
@@ -42,7 +42,7 @@ export class Career {
   // ---- footer content (passed to <app-footer>) ----
   ctaHeading = 'Need Food Boxes or Refreshments for Your Next Event?';
   ctaSubtext =
-    'Whether you are organizing a government workshop, corporate seminar, school activity, or executive meeting, Metro Catering provides reliable and professional catering solutions tailored to your needs.';
+    'Whether you are organizing a government workshop, corporate seminar, school activity, or executive meeting, BRWeb provides reliable and professional catering solutions tailored to your needs.';
   ctaButtonText = 'Contact Us';
   ctaLink = '/contact-us';
 
