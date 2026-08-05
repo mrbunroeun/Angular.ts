@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+
+import { Route } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { Button } from '../../components/button/button';
 
 import { Footer } from '../../components/footer/footer';
 import { OurCoreServices } from '../../components/our-core-services/our-core-services';
+import { routes } from '../../app.routes';
 
 interface CateringSolutionItem {
   icon: string;
@@ -29,6 +32,7 @@ interface CoreService {
   number: string;
   title: string;
   image: string;
+  route: string;
 }
 
 @Component({
@@ -38,29 +42,38 @@ interface CoreService {
   styleUrl: './home.css',
 })
 export class Home {
-  readonly coreServices: CoreService[] = [
-    {
-      number: '01',
-      title: 'Canteen Catering',
-      image: 'home/our_core_services/canteen_catering.png',
-    },
-    { number: '02', title: 'Mobile Catering', image: 'home/our_core_services/mobile_catering.png' },
-    {
-      number: '03',
-      title: 'Food Box & Light Refreshment Catering',
-      image: 'home/our_core_services/food_box_light_refreshment_catering.png',
-    },
-    {
-      number: '04',
-      title: 'Corporate Buffet Catering',
-      image: 'home/our_core_services/corporate_buffet_catering.png',
-    },
-    {
-      number: '05',
-      title: 'Event Rental & Setup',
-      image: 'home/our_core_services/event_rental_setup.png',
-    },
-  ];
+ readonly coreServices: CoreService[] = [
+  {
+    number: '01',
+    title: 'Canteen Catering',
+    image: 'home/our_core_services/canteen_catering.png',
+    route: '/canteen-catering-services',
+  },
+  {
+    number: '02',
+    title: 'Mobile Catering',
+    image: 'home/our_core_services/mobile_catering.png',
+    route: '/mobile-catering',
+  },
+  {
+    number: '03',
+    title: 'Food Box & Light Refreshment Catering',
+    image: 'home/our_core_services/food_box_light_refreshment_catering.png',
+    route: '/food-box-and-refreshments',
+  },
+  {
+    number: '04',
+    title: 'Corporate Buffet Catering',
+    image: 'home/our_core_services/corporate_buffet_catering.png',
+    route: '/corporate-buffet-catering',
+  },
+  {
+    number: '05',
+    title: 'Event Rental & Setup',
+    image: 'home/our_core_services/event_rental_setup.png',
+    route: '/event-equipment-rental',
+  },
+];
 
   readonly cateringSolutionItems: CateringSolutionItem[] = [
     { icon: 'offices.svg', label: 'Offices', width: 'w-20' },

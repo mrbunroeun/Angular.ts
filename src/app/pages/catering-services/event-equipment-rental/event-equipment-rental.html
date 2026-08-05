@@ -17,10 +17,11 @@
   <!-- Equipment Categories -->
   <div class="bg-[#f3f0e9]">
     <div
-      class="grid items-start justify-center gap-2 max-w-[1400px] mx-auto px-2 py-16 grid-cols-[repeat(auto-fit,180px)] sm:grid-cols-[repeat(auto-fit,190px)] md:grid-cols-[repeat(auto-fit,190px)] lg:grid-cols-[repeat(auto-fit,190px)] xl:grid-cols-[repeat(auto-fit,190px)]"
+      class="grid justify-center gap-2 max-w-[1400px] mx-auto px-2 py-16 grid-cols-[repeat(auto-fit,180px)] sm:grid-cols-[repeat(auto-fit,190px)] md:grid-cols-[repeat(auto-fit,190px)] lg:grid-cols-[repeat(auto-fit,190px)] xl:grid-cols-[repeat(auto-fit,190px)] items-stretch"
     >
       @for (package of packages; track package.number) {
         <app-products-package
+          class="h-full"
           [number]="package.number"
           [image]="package.image"
           [title]="package.title"

@@ -80,27 +80,28 @@
 
   <!-- Food Box & Refreshment Packages -->
   <div class="bg-[#f3f0e9]">
-    <div
-      class="grid items-start justify-center gap-2 max-w-[1400px] mx-auto px-2 py-16
-        grid-cols-[repeat(auto-fit,180px)]
-        sm:grid-cols-[repeat(auto-fit,190px)]
-        md:grid-cols-[repeat(auto-fit,190px)]
-        lg:grid-cols-[repeat(auto-fit,190px)]
-        xl:grid-cols-[repeat(auto-fit,190px)]"
+   <div
+  class="grid items-stretch justify-center gap-2 max-w-[1400px] mx-auto px-2 py-16
+    grid-cols-[repeat(auto-fit,180px)]
+    sm:grid-cols-[repeat(auto-fit,190px)]
+    md:grid-cols-[repeat(auto-fit,190px)]
+    lg:grid-cols-[repeat(auto-fit,190px)]
+    xl:grid-cols-[repeat(auto-fit,190px)]"
+>
+  @for (package of packages; track package.number) {
+    <app-products-package
+      class="h-full"
+      [number]="package.number"
+      [image]="package.image"
+      [title]="package.title"
+      [price]="package.price"
+      [note]="package.note"
+      [includes]="package.includes"
+      [perfectFor]="package.perfectFor"
     >
-      @for (package of packages; track package.number) {
-        <app-products-package
-          [number]="package.number"
-          [image]="package.image"
-          [title]="package.title"
-          [price]="package.price"
-          [note]="package.note"
-          [includes]="package.includes"
-          [perfectFor]="package.perfectFor"
-        >
-        </app-products-package>
-      }
-    </div>
+    </app-products-package>
+  }
+</div>
   </div>
 
   <!-- Menu Options -->

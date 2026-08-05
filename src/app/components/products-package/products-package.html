@@ -1,4 +1,4 @@
-<div class="relative bg-white rounded-xl shadow-sm px-3 pt-10 pb-5 text-center">
+<div class="relative bg-white rounded-xl shadow-sm px-3 pt-10 pb-5 text-center h-full flex flex-col">
   <!-- Package number badge -->
   <span class="absolute top-2 left-2 text-[#2e0073] text-[13px] font-bold">
     {{ number }}
@@ -6,10 +6,10 @@
 
   <img [src]="image" [alt]="title" class="w-20 h-20 mx-auto object-cover rounded-full mb-3" />
 
-  <p class="text-[#2e0073] font-bold text-[15px] mb-1">{{ title }}</p>
+ <p class="text-[#2e0073] font-bold text-[15px] mb-1 min-h-[38px] line-clamp-2 flex items-center justify-center">{{ title }}</p>
   @if (price) {
-    <p class="text-[#060606] font-semibold text-[14px]">{{ price }}</p>
-  }
+  <p class="text-[#060606] font-semibold text-[14px] min-h-[36px] flex items-center justify-center">{{ price }}</p>
+}
   @if (note) {
     <p class="text-gray-500 text-[11px] mb-3">{{ note }}</p>
   }
