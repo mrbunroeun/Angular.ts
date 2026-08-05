@@ -38,6 +38,7 @@ export class Navbar {
 
   readonly isMenuOpen = signal(false);
   readonly isCateringOpen = signal(false);
+  readonly isCateringActive = signal(false);
   readonly isMobileCateringOpen = signal(false);
   readonly isMobileMenuAnimating = signal(false);
 
@@ -64,6 +65,8 @@ export class Navbar {
   private lastFocusedTrigger: HTMLElement | null = null;
 
   constructor() {
+    this.isCateringActive.set(this.isCateringRoute());
+
     this.router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
@@ -72,6 +75,7 @@ export class Navbar {
       .subscribe(() => {
         this.closeAllDesktop(true);
         this.closeMobileMenu();
+        this.isCateringActive.set(this.isCateringRoute());
       });
 
     this.destroyRef.onDestroy(() => {
@@ -243,6 +247,16 @@ export class Navbar {
 
   toggleMobileCatering(): void {
     this.isMobileCateringOpen.update((v) => !v);
+  }
+
+  private isCateringRoute(): boolean {
+    const url = this.router.url || '';
+    return this.cateringItems.some((item) => url === item.path || url.startsWith(`${item.path}/`));
+  }
+
+  isActivePath(path: string): boolean {
+    const url = this.router.url || '';
+    return url === path || url.startsWith(`${path}/`);
   }
 
   private lockBodyScroll(): void {
