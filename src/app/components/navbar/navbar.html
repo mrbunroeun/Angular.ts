@@ -5,7 +5,7 @@
   >
     <p class="text-white text-[11px] md:text-xs font-light">Address</p>
     <a
-      href="tel:0123132277"
+      routerLink="tel:0123132277"
       class="text-white text-[11px] md:text-xs font-light hover:opacity-80 transition duration-300 ease-in-out"
     >
       012 31 32 77
@@ -18,7 +18,8 @@
       class="grid grid-cols-[auto_1fr_auto] items-center mx-auto rounded-full bg-white/95 backdrop-blur-md shadow-xl w-[90%] md:w-[80%] px-6 md:px-10 h-12 md:h-[60px] transition duration-300 ease-in-out"
     >
       <!-- Logo -->
-      <a href="/">
+       
+      <a routerLink="/">
         <img
           src="logo/metro_log.svg"
           alt="Metro Catering Logo"
@@ -70,20 +71,25 @@
           </button>
 
           <!--
-            FIX: hidden state is now the STATIC default (pointer-events-none invisible opacity-0
-            -translate-y-2). Open state is added conditionally instead of removed conditionally.
-            This removes any window where the panel could be interactive before/without the
-            binding evaluating, and `invisible` is a second, independent guarantee on top of
-            pointer-events (visibility:hidden always blocks hit-testing, regardless of any
-            inherited pointer-events value). `inert` additionally strips it from tab order and
-            the accessibility tree when closed.
+            FIX: previously this listed opacity-0/scale-95/-translate-y-1/pointer-events-none
+            as STATIC defaults and only ADDED opacity-100/scale-100/translate-y-0/
+            pointer-events-auto when open — leaving both classes for each property present
+            at once (e.g. opacity-0 AND opacity-100 together), whose winner depends on
+            Tailwind's internal generation order, not on isCateringOpen(). That's why it
+            stopped opening. Fix: every property is now driven by exactly ONE conditional
+            class, bound both ways, so there is never a collision.
           -->
           <div
-            class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white rounded-2xl shadow-xl overflow-hidden pointer-events-none invisible opacity-0 -translate-y-2 transition-all duration-500 ease-in-out"
-            [class.pointer-events-auto]="isCateringOpen()"
-            [class.visible]="isCateringOpen()"
-            [class.opacity-100]="isCateringOpen()"
+            class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 origin-top rounded-2xl bg-white shadow-xl transition-all duration-200 ease-out"
+            [class.scale-95]="!isCateringOpen()"
+            [class.scale-100]="isCateringOpen()"
+            [class.-translate-y-1]="!isCateringOpen()"
             [class.translate-y-0]="isCateringOpen()"
+            [class.opacity-0]="!isCateringOpen()"
+            [class.opacity-100]="isCateringOpen()"
+            [class.pointer-events-none]="!isCateringOpen()"
+            [class.pointer-events-auto]="isCateringOpen()"
+            [class.invisible]="!isCateringOpen()"
             [attr.inert]="isCateringOpen() ? null : ''"
             (mouseenter)="onPanelEnter()"
             (mouseleave)="onPanelLeave()"
@@ -172,37 +178,39 @@
     </div>
 
     <!--
-      FIX (root cause #1): This backdrop is `fixed inset-0` with `h-screen`, i.e. it always
-      occupies the ENTIRE viewport in the DOM, menu open or closed. Previously it was only
-      made non-interactive by conditionally ADDING `pointer-events-none` when closed — a single
-      point of failure. Now `pointer-events-none invisible opacity-0` are static defaults, and
-      the OPEN state is what gets added conditionally. Combined with `invisible`
-      (visibility:hidden, which independently blocks hit-testing) there is no state in which
-      this element can silently intercept taps on the page behind it.
+      FIX: same collision bug as the dropdown — invisible/visible and opacity-0/opacity-100
+      were both reachable simultaneously. Every property below is now driven by exactly one
+      conditional class per state, bound both ways.
     -->
     <div
-      class="lg:hidden fixed inset-0 top-0 h-screen bg-black/30 -z-10 pointer-events-none invisible opacity-0 transition-opacity duration-300 ease-in-out"
-      [class.pointer-events-auto]="isMenuOpen()"
-      [class.visible]="isMenuOpen()"
+      class="lg:hidden fixed inset-0 top-0 h-screen bg-black/30 -z-10 transition-opacity duration-300 ease-in-out"
+      [class.opacity-0]="!isMenuOpen()"
       [class.opacity-100]="isMenuOpen()"
+      [class.pointer-events-none]="!isMenuOpen()"
+      [class.pointer-events-auto]="isMenuOpen()"
+      [class.invisible]="!isMenuOpen()"
       (click)="closeMobileMenu()"
       aria-hidden="true"
     ></div>
 
     <!--
-      Mobile slide-down menu.
-      Closed state: scaled down, transparent, and non-interactive — no invisible
-      tall box overlapping page content below the navbar.
-      Open state: full opacity, normal scale, and interactive.
-      Pattern follows the proven reference layout (fixed header + absolute panel
-      with scale/opacity transitions + backdrop).
+      FIX: same collision bug — scale-95/scale-100, -translate-y-1/translate-y-0,
+      opacity-0/opacity-100, and pointer-events-none/pointer-events-auto are each
+      driven by exactly one bound pair now, so open and closed states can never
+      both be "on" at once.
     -->
     <div
-      class="lg:hidden absolute left-1/2 top-full mt-2 w-[90%] md:w-[80%] -translate-x-1/2 origin-top scale-95 -translate-y-1 rounded-3xl bg-white/95 backdrop-blur-md shadow-xl px-6 py-4 opacity-0 pointer-events-none transition-all duration-300 ease-out"
+      class="lg:hidden absolute left-1/2 top-full mt-2 w-[90%] md:w-[80%] -translate-x-1/2 origin-top rounded-3xl bg-white/95 backdrop-blur-md shadow-xl px-6 py-4 transition-all duration-300 ease-out"
+      [class.scale-95]="!isMenuOpen()"
       [class.scale-100]="isMenuOpen()"
+      [class.-translate-y-1]="!isMenuOpen()"
       [class.translate-y-0]="isMenuOpen()"
+      [class.opacity-0]="!isMenuOpen()"
       [class.opacity-100]="isMenuOpen()"
+      [class.pointer-events-none]="!isMenuOpen()"
       [class.pointer-events-auto]="isMenuOpen()"
+      [class.invisible]="!isMenuOpen()"
+      [attr.inert]="isMenuOpen() ? null : ''"
     >
       <div class="flex flex-col gap-3 text-base">
         <a
