@@ -4,8 +4,15 @@
     class="w-full h-[38px] md:h-[50px] bg-[#2E0073] flex flex-row justify-center gap-[10rem] sm:gap-[20rem] md:gap-[50rem] items-center pointer-events-auto relative z-50"
   >
     <p class="text-white text-[11px] md:text-xs font-light">Address</p>
+    <!--
+      FIX: this was `routerLink="tel:0123132277"`. routerLink hands the URL to
+      Angular's Router, which tries to match it against your route config
+      instead of letting the browser dial the number — on a real device this
+      link did nothing (or hit your wildcard/404 route). A tel: link is an
+      external protocol, so it must be a plain href, not a routerLink.
+    -->
     <a
-      routerLink="tel:0123132277"
+      href="tel:0123132277"
       class="text-white text-[11px] md:text-xs font-light hover:opacity-80 transition duration-300 ease-in-out"
     >
       012 31 32 77
@@ -18,7 +25,6 @@
       class="grid grid-cols-[auto_1fr_auto] items-center mx-auto rounded-full bg-white/95 backdrop-blur-md shadow-xl w-[90%] md:w-[80%] px-6 md:px-10 h-12 md:h-[60px] transition duration-300 ease-in-out"
     >
       <!-- Logo -->
-       
       <a routerLink="/">
         <img
           src="logo/metro_log.svg"
@@ -29,33 +35,79 @@
 
       <!-- Desktop links -->
       <div class="hidden lg:flex flex-row items-center justify-center gap-10 text-base">
+        <!--
+          FIX (this pattern repeats on every top-level link below): the original
+          markup had a static `text-gray-700` class sitting alongside a
+          `routerLinkActive="text-[#B00000]"` class that gets added on top of it.
+          When the route is active, BOTH classes are present in the DOM at once,
+          and since they're two same-specificity Tailwind utilities targeting the
+          same `color` property, whichever one Tailwind happens to generate later
+          in the compiled stylesheet wins — not necessarily the active/red one.
+          That's why "highlight current page" could render unreliably.
+
+          Fix: use routerLinkActive purely for its `isActive` state (via the
+          #xActive="routerLinkActive" export) and compute ONE class string from
+          it, so gray and red are never both present at the same time. Also
+          restores the `hover:text-[#B00000]` that was missing from Home only.
+        -->
         <a
           routerLink="/"
-          routerLinkActive="text-[#B00000]"
+          routerLinkActive
           [routerLinkActiveOptions]="{ exact: true }"
-          class="text-gray-700 transition duration-300 ease-in-out"
+          #homeActive="routerLinkActive"
+          [class]="
+            homeActive.isActive
+              ? 'text-[#B00000] transition duration-300 ease-in-out'
+              : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'
+          "
           >Home</a
         >
 
         <a
           routerLink="/about"
-          routerLinkActive="text-[#B00000]"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #aboutActive="routerLinkActive"
+          [class]="
+            aboutActive.isActive
+              ? 'text-[#B00000] transition duration-300 ease-in-out'
+              : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'
+          "
           >About Metro Catering</a
         >
 
-        <!-- Catering dropdown (desktop, hover) -->
+        <!-- Catering dropdown (desktop, hover + click) -->
         <div
           class="relative"
-          routerLinkActive="text-[#B00000] font-bold"
+          routerLinkActive
           [routerLinkActiveOptions]="{ exact: false }"
+          #cateringActive="routerLinkActive"
           (mouseenter)="onTriggerEnter()"
           (mouseleave)="onTriggerLeave()"
         >
+          <!--
+            FIX: this is the same collision bug as above, but worse — the
+            original had routerLinkActive on this wrapping <div>, while the
+            <button> inside it hard-coded its own `text-gray-700`. An element's
+            own directly-applied class always wins over a color inherited from
+            an ancestor, so the trigger text could NEVER turn red on a child
+            catering route, no matter what the div's classes were doing.
+            `font-bold` happened to inherit fine, so you'd see bold-but-gray —
+            a good sign something upstream was broken.
+
+            Fix: read the div's isActive state via exportAs and drive the
+            button's own class list directly from it.
+          -->
           <button
             type="button"
             (click)="toggleCatering($event)"
-            class="flex items-center gap-1 text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out focus:outline-none"
+            (keydown)="onTriggerKeydown($event)"
+            [attr.aria-expanded]="isCateringOpen()"
+            aria-haspopup="true"
+            [class]="
+              cateringActive.isActive
+                ? 'flex items-center gap-1 text-[#B00000] font-bold transition duration-300 ease-in-out focus:outline-none'
+                : 'flex items-center gap-1 text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out focus:outline-none'
+            "
           >
             Catering Services
             <svg
@@ -70,15 +122,6 @@
             </svg>
           </button>
 
-          <!--
-            FIX: previously this listed opacity-0/scale-95/-translate-y-1/pointer-events-none
-            as STATIC defaults and only ADDED opacity-100/scale-100/translate-y-0/
-            pointer-events-auto when open — leaving both classes for each property present
-            at once (e.g. opacity-0 AND opacity-100 together), whose winner depends on
-            Tailwind's internal generation order, not on isCateringOpen(). That's why it
-            stopped opening. Fix: every property is now driven by exactly ONE conditional
-            class, bound both ways, so there is never a collision.
-          -->
           <div
             class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 origin-top rounded-2xl bg-white shadow-xl transition-all duration-200 ease-out"
             [class.scale-95]="!isCateringOpen()"
@@ -94,63 +137,64 @@
             (mouseenter)="onPanelEnter()"
             (mouseleave)="onPanelLeave()"
           >
-            <a
-              #cateringItem
-              routerLink="/canteen-catering-services"
-              routerLinkActive="active"
-              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-              >Canteen Catering Services</a
-            >
-            <a
-              #cateringItem
-              routerLink="/mobile-catering"
-              routerLinkActive="active"
-              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-              >Mobile Catering</a
-            >
-            <a
-              #cateringItem
-              routerLink="/corporate-buffet-catering"
-              routerLinkActive="active"
-              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-              >Corporate Buffet Catering</a
-            >
-            <a
-              #cateringItem
-              routerLink="/event-equipment-rental"
-              routerLinkActive="active"
-              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-              >Event Equipment Rental</a
-            >
-            <a
-              #cateringItem
-              routerLink="/food-box-and-refreshments"
-              routerLinkActive="active"
-              class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-              >Food Box & Refreshments</a
-            >
+            <!--
+              FIX: these five links were hard-coded here AND duplicated again in
+              the mobile accordion below, while the component already had a
+              `cateringItems` array that nothing used. Two sources of truth for
+              the same nav data is exactly the kind of redundant state the audit
+              asked to remove — and it's also why keyboard nav below was broken:
+              there was nowhere to put the (keydown) binding without editing five
+              near-identical blocks by hand. Looping over the array fixes both.
+            -->
+            @for (item of cateringItems; track item.path; let i = $index) {
+              <a
+                #cateringItem
+                [routerLink]="item.path"
+                routerLinkActive="active"
+                class="dropdown-link block px-5 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+                (keydown)="onDropdownKeydown($event, i)"
+                >{{ item.label }}</a
+              >
+            }
           </div>
         </div>
 
         <a
           routerLink="/latest-event"
-          routerLinkActive="text-[#B00000]"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #eventsActive="routerLinkActive"
+          [class]="
+            eventsActive.isActive
+              ? 'text-[#B00000] transition duration-300 ease-in-out'
+              : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'
+          "
           >Latest Events</a
         >
         <a
           routerLink="/career"
-          routerLinkActive="text-[#B00000]"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #careerActive="routerLinkActive"
+          [class]="
+            careerActive.isActive
+              ? 'text-[#B00000] transition duration-300 ease-in-out'
+              : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'
+          "
           >Career</a
         >
         <a
           routerLink="/contact"
-          routerLinkActive="text-[#B00000]"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #contactActive="routerLinkActive"
+          [class]="
+            contactActive.isActive
+              ? 'text-[#B00000] transition duration-300 ease-in-out'
+              : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'
+          "
           >Contact Us</a
         >
       </div>
+
+      <!-- phone view -->
 
       <!-- Mobile hamburger -->
       <button
@@ -177,11 +221,7 @@
       </button>
     </div>
 
-    <!--
-      FIX: same collision bug as the dropdown — invisible/visible and opacity-0/opacity-100
-      were both reachable simultaneously. Every property below is now driven by exactly one
-      conditional class per state, bound both ways.
-    -->
+    <!-- Backdrop -->
     <div
       class="lg:hidden fixed inset-0 top-0 h-screen bg-black/30 -z-10 transition-opacity duration-300 ease-in-out"
       [class.opacity-0]="!isMenuOpen()"
@@ -193,12 +233,7 @@
       aria-hidden="true"
     ></div>
 
-    <!--
-      FIX: same collision bug — scale-95/scale-100, -translate-y-1/translate-y-0,
-      opacity-0/opacity-100, and pointer-events-none/pointer-events-auto are each
-      driven by exactly one bound pair now, so open and closed states can never
-      both be "on" at once.
-    -->
+    <!-- Mobile menu panel -->
     <div
       class="lg:hidden absolute left-1/2 top-full mt-2 w-[90%] md:w-[80%] -translate-x-1/2 origin-top rounded-3xl bg-white/95 backdrop-blur-md shadow-xl px-6 py-4 transition-all duration-300 ease-out"
       [class.scale-95]="!isMenuOpen()"
@@ -216,13 +251,18 @@
         <a
           routerLink="/"
           (click)="closeMobileMenu()"
-          class="text-gray-700 transition duration-300 ease-in-out"
+          routerLinkActive
+          #mHomeActive="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [class]="mHomeActive.isActive ? 'text-[#B00000]' : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'"
           >Home</a
         >
         <a
           routerLink="/about"
           (click)="closeMobileMenu()"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #mAboutActive="routerLinkActive"
+          [class]="mAboutActive.isActive ? 'text-[#B00000]' : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'"
           >About Metro Catering</a
         >
 
@@ -230,7 +270,8 @@
           <button
             type="button"
             (click)="toggleMobileCatering()"
-            class="flex items-center justify-between w-full text-[#B00000] font-bold transition duration-300 ease-in-out"
+            [attr.aria-expanded]="isMobileCateringOpen()"
+            class="flex items-center justify-between w-full text-[#000000] font-bold transition duration-300 ease-in-out"
           >
             Catering Services
             <svg
@@ -251,41 +292,15 @@
           >
             <div class="overflow-hidden">
               <div class="flex flex-col mt-2 rounded-xl overflow-hidden bg-black/[0.03]">
-                <a
-                  routerLink="/canteen-catering-services"
-                  (click)="closeMobileMenu()"
-                  routerLinkActive="active"
-                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-                  >Canteen Catering Services</a
-                >
-                <a
-                  routerLink="/mobile-catering"
-                  (click)="closeMobileMenu()"
-                  routerLinkActive="active"
-                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-                  >Mobile Catering</a
-                >
-                <a
-                  routerLink="/corporate-buffet-catering"
-                  (click)="closeMobileMenu()"
-                  routerLinkActive="active"
-                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-                  >Corporate Buffet Catering</a
-                >
-                <a
-                  routerLink="/event-equipment-rental"
-                  (click)="closeMobileMenu()"
-                  routerLinkActive="active"
-                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-                  >Event Equipment Rental</a
-                >
-                <a
-                  routerLink="/food-box-and-refreshments"
-                  (click)="closeMobileMenu()"
-                  routerLinkActive="active"
-                  class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
-                  >Food Box & Refreshments</a
-                >
+                @for (item of cateringItems; track item.path) {
+                  <a
+                    [routerLink]="item.path"
+                    (click)="closeMobileMenu()"
+                    routerLinkActive="active"
+                    class="dropdown-link px-4 py-3 text-gray-700 transition-colors duration-300 ease-in-out"
+                    >{{ item.label }}</a
+                  >
+                }
               </div>
             </div>
           </div>
@@ -294,19 +309,25 @@
         <a
           routerLink="/latest-event"
           (click)="closeMobileMenu()"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #mEventsActive="routerLinkActive"
+          [class]="mEventsActive.isActive ? 'text-[#B00000]' : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'"
           >Latest Events</a
         >
         <a
           routerLink="/career"
           (click)="closeMobileMenu()"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #mCareerActive="routerLinkActive"
+          [class]="mCareerActive.isActive ? 'text-[#B00000]' : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'"
           >Career</a
         >
         <a
           routerLink="/contact"
           (click)="closeMobileMenu()"
-          class="text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out"
+          routerLinkActive
+          #mContactActive="routerLinkActive"
+          [class]="mContactActive.isActive ? 'text-[#B00000]' : 'text-gray-700 hover:text-[#B00000] transition duration-300 ease-in-out'"
           >Contact Us</a
         >
       </div>

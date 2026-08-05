@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';  
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 interface DropdownItem {
   label: string;
@@ -29,7 +29,7 @@ export class Navbar {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
-    private readonly document = inject(DOCUMENT);
+  private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
 
   private readonly HOVER_OPEN_DELAY = 80;
@@ -41,6 +41,8 @@ export class Navbar {
   readonly isMobileCateringOpen = signal(false);
   readonly isMobileMenuAnimating = signal(false);
 
+  // Single source of truth for catering links — both the desktop dropdown
+  // and the mobile accordion iterate this instead of hard-coding markup twice.
   readonly cateringItems: DropdownItem[] = [
     { label: 'Canteen Catering Services', path: '/canteen-catering-services' },
     { label: 'Mobile Catering', path: '/mobile-catering' },
@@ -54,6 +56,11 @@ export class Navbar {
 
   private openTimer: ReturnType<typeof setTimeout> | null = null;
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
+  // FIX: mobile menu animation-lock timeout was never tracked, so a rapid
+  // open/close/route-change sequence could leave dangling timers still
+  // trying to touch signals after the component (or the animation) had
+  // already moved on. Now tracked and always cleared before being reset.
+  private mobileAnimTimer: ReturnType<typeof setTimeout> | null = null;
   private lastFocusedTrigger: HTMLElement | null = null;
 
   constructor() {
@@ -69,6 +76,10 @@ export class Navbar {
 
     this.destroyRef.onDestroy(() => {
       this.clearTimers();
+      if (this.mobileAnimTimer) {
+        clearTimeout(this.mobileAnimTimer);
+        this.mobileAnimTimer = null;
+      }
       this.unlockBodyScroll();
     });
   }
@@ -108,12 +119,35 @@ export class Navbar {
 
   toggleCatering(event: Event): void {
     this.clearTimers();
+    // FIX: was `event.target`, which is whatever element was actually clicked
+    // (e.g. the inner <svg>/<path> of the arrow icon). currentTarget is
+    // guaranteed to be the element the listener is bound to — the button —
+    // so focus-return after closing actually lands on a focusable element.
+    const trigger = event.currentTarget as HTMLElement;
+    this.lastFocusedTrigger = trigger;
+
     const next = !this.isCateringOpen();
     this.isCateringOpen.set(next);
     if (next) {
-      this.lastFocusedTrigger = event.target as HTMLElement;
       queueMicrotask(() => this.focusCateringItem(0));
     }
+  }
+
+  // FIX: previously the trigger button had no keyboard affordance of its own —
+  // arrow keys only worked once you were already inside the open panel, and
+  // even that was unreachable (see onDropdownKeydown note below). This lets
+  // ArrowDown/ArrowUp on the trigger open the panel and move focus straight in,
+  // matching standard combobox/menu-button behavior.
+  onTriggerKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    event.preventDefault();
+
+    if (!this.isCateringOpen()) {
+      this.lastFocusedTrigger = event.currentTarget as HTMLElement;
+      this.isCateringOpen.set(true);
+    }
+    const targetIndex = event.key === 'ArrowUp' ? this.cateringItems.length - 1 : 0;
+    queueMicrotask(() => this.focusCateringItem(targetIndex));
   }
 
   closeAllDesktop(skipFocusReturn = false): void {
@@ -185,7 +219,7 @@ export class Navbar {
     this.isMobileMenuAnimating.set(true);
     this.isMenuOpen.set(true);
     this.lockBodyScroll();
-    setTimeout(() => this.isMobileMenuAnimating.set(false), this.MOBILE_ANIM_MS);
+    this.armMobileAnimTimer();
   }
 
   closeMobileMenu(): void {
@@ -194,14 +228,24 @@ export class Navbar {
     this.isMenuOpen.set(false);
     this.isMobileCateringOpen.set(false);
     this.unlockBodyScroll();
-    setTimeout(() => this.isMobileMenuAnimating.set(false), this.MOBILE_ANIM_MS);
+    this.armMobileAnimTimer();
+  }
+
+  private armMobileAnimTimer(): void {
+    if (this.mobileAnimTimer) {
+      clearTimeout(this.mobileAnimTimer);
+    }
+    this.mobileAnimTimer = setTimeout(() => {
+      this.isMobileMenuAnimating.set(false);
+      this.mobileAnimTimer = null;
+    }, this.MOBILE_ANIM_MS);
   }
 
   toggleMobileCatering(): void {
     this.isMobileCateringOpen.update((v) => !v);
   }
 
- private lockBodyScroll(): void {
+  private lockBodyScroll(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const scrollbarWidth = window.innerWidth - this.document.documentElement.clientWidth;
     this.document.body.style.paddingRight = `${scrollbarWidth}px`;
