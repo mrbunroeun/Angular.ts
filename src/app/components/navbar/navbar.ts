@@ -39,6 +39,7 @@ export class Navbar {
   readonly isMenuOpen = signal(false);
   readonly isCateringOpen = signal(false);
   readonly isCateringActive = signal(false);
+  readonly isCateringSelected = signal(false);
   readonly isMobileCateringOpen = signal(false);
   readonly isMobileMenuAnimating = signal(false);
 
