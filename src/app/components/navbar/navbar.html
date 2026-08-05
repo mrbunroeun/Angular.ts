@@ -1,7 +1,7 @@
-<div class="fixed top-0 left-0 w-full z-40">
+<div class="fixed top-0 left-0 w-full z-40 pointer-events-none">
   <!-- Top info bar -->
   <section
-    class="w-full h-[38px] md:h-[50px] bg-[#2E0073] flex flex-row justify-center gap-[10rem] sm:gap-[20rem] md:gap-[50rem] items-center"
+    class="w-full h-[38px] md:h-[50px] bg-[#2E0073] flex flex-row justify-center gap-[10rem] sm:gap-[20rem] md:gap-[50rem] items-center pointer-events-auto relative z-50"
   >
     <p class="text-white text-[11px] md:text-xs font-light">Address</p>
     <a
@@ -13,9 +13,9 @@
   </section>
 
   <!-- Floating navbar -->
-  <section class="relative mt-10 md:mt-12 z-30">
+  <section class="relative mt-10 md:mt-12 z-30 pointer-events-auto">
     <div
-      class="grid grid-cols-[auto_1fr_auto] items-center mx-auto rounded-full bg-white/95 backdrop-blur-md shadow-xl w-[90%] md:w-[80%] px-6 md:px-10 h-13 md:h-[60px] transition duration-300 ease-in-out"
+      class="grid grid-cols-[auto_1fr_auto] items-center mx-auto rounded-full bg-white/95 backdrop-blur-md shadow-xl w-[90%] md:w-[80%] px-6 md:px-10 h-12 md:h-[60px] transition duration-300 ease-in-out"
     >
       <!-- Logo -->
       <a href="/">
@@ -69,13 +69,22 @@
             </svg>
           </button>
 
+          <!--
+            FIX: hidden state is now the STATIC default (pointer-events-none invisible opacity-0
+            -translate-y-2). Open state is added conditionally instead of removed conditionally.
+            This removes any window where the panel could be interactive before/without the
+            binding evaluating, and `invisible` is a second, independent guarantee on top of
+            pointer-events (visibility:hidden always blocks hit-testing, regardless of any
+            inherited pointer-events value). `inert` additionally strips it from tab order and
+            the accessibility tree when closed.
+          -->
           <div
-            class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500 ease-in-out"
-            [class.opacity-0]="!isCateringOpen()"
-            [class.-translate-y-2]="!isCateringOpen()"
-            [class.pointer-events-none]="!isCateringOpen()"
+            class="absolute left-1/2 -translate-x-1/2 mt-4 w-64 bg-white rounded-2xl shadow-xl overflow-hidden pointer-events-none invisible opacity-0 -translate-y-2 transition-all duration-500 ease-in-out"
+            [class.pointer-events-auto]="isCateringOpen()"
+            [class.visible]="isCateringOpen()"
             [class.opacity-100]="isCateringOpen()"
             [class.translate-y-0]="isCateringOpen()"
+            [attr.inert]="isCateringOpen() ? null : ''"
             (mouseenter)="onPanelEnter()"
             (mouseleave)="onPanelLeave()"
           >
@@ -143,7 +152,7 @@
         [attr.aria-expanded]="isMenuOpen()"
         aria-label="Toggle navigation menu"
         (click)="toggleMenu()"
-        class="lg:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded-full hover:bg-black/5 transition duration-300 ease-in-out ml-auto"
+        class="lg:hidden cursor-pointer flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded-full hover:bg-black/5 transition duration-300 ease-in-out ml-auto"
       >
         <span
           class="block w-5 h-[2px] bg-gray-800 transition duration-300 ease-in-out"
@@ -162,24 +171,38 @@
       </button>
     </div>
 
-    <!-- Backdrop -->
+    <!--
+      FIX (root cause #1): This backdrop is `fixed inset-0` with `h-screen`, i.e. it always
+      occupies the ENTIRE viewport in the DOM, menu open or closed. Previously it was only
+      made non-interactive by conditionally ADDING `pointer-events-none` when closed — a single
+      point of failure. Now `pointer-events-none invisible opacity-0` are static defaults, and
+      the OPEN state is what gets added conditionally. Combined with `invisible`
+      (visibility:hidden, which independently blocks hit-testing) there is no state in which
+      this element can silently intercept taps on the page behind it.
+    -->
     <div
-      class="lg:hidden fixed inset-0 top-0 bg-black/30 -z-10 transition-opacity duration-300 ease-in-out"
-      style="height: 100vh"
-      [class.opacity-0]="!isMenuOpen()"
-      [class.pointer-events-none]="!isMenuOpen()"
+      class="lg:hidden fixed inset-0 top-0 h-screen bg-black/30 -z-10 pointer-events-none invisible opacity-0 transition-opacity duration-300 ease-in-out"
+      [class.pointer-events-auto]="isMenuOpen()"
+      [class.visible]="isMenuOpen()"
       [class.opacity-100]="isMenuOpen()"
       (click)="closeMobileMenu()"
+      aria-hidden="true"
     ></div>
 
-    <!-- Mobile slide-down menu -->
+    <!--
+      Mobile slide-down menu.
+      Closed state: scaled down, transparent, and non-interactive — no invisible
+      tall box overlapping page content below the navbar.
+      Open state: full opacity, normal scale, and interactive.
+      Pattern follows the proven reference layout (fixed header + absolute panel
+      with scale/opacity transitions + backdrop).
+    -->
     <div
-      class="lg:hidden mx-auto w-[90%] md:w-[80%] bg-white/95 backdrop-blur-md rounded-3xl shadow-xl mt-2 px-6 py-4 transition-all duration-300 ease-in-out"
-      [class.opacity-0]="!isMenuOpen()"
-      [class.-translate-y-2]="!isMenuOpen()"
-      [class.pointer-events-none]="!isMenuOpen()"
-      [class.opacity-100]="isMenuOpen()"
+      class="lg:hidden absolute left-1/2 top-full mt-2 w-[90%] md:w-[80%] -translate-x-1/2 origin-top scale-95 -translate-y-1 rounded-3xl bg-white/95 backdrop-blur-md shadow-xl px-6 py-4 opacity-0 pointer-events-none transition-all duration-300 ease-out"
+      [class.scale-100]="isMenuOpen()"
       [class.translate-y-0]="isMenuOpen()"
+      [class.opacity-100]="isMenuOpen()"
+      [class.pointer-events-auto]="isMenuOpen()"
     >
       <div class="flex flex-col gap-3 text-base">
         <a

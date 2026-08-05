@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Footer } from '../../components/footer/footer';
 import { Hero } from '../../components/hero/hero';
+import { RouterLink } from '@angular/router';
 
 interface FeatureItem {
   icon: string;
@@ -10,7 +11,7 @@ interface FeatureItem {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [Footer, Hero],
+  imports: [RouterLink, Footer, Hero],
   templateUrl: './about.html',
   styleUrl: './about.css',
 })

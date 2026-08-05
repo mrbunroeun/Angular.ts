@@ -7,10 +7,12 @@ import {
   signal,
   ViewChildren,
   QueryList,
+  PLATFORM_ID,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 interface DropdownItem {
   label: string;
@@ -27,6 +29,8 @@ export class Navbar {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
+    private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
 
   private readonly HOVER_OPEN_DELAY = 80;
   private readonly HOVER_CLOSE_DELAY = 200;
@@ -197,14 +201,16 @@ export class Navbar {
     this.isMobileCateringOpen.update((v) => !v);
   }
 
-  private lockBodyScroll(): void {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
-    document.body.style.overflow = 'hidden';
+ private lockBodyScroll(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const scrollbarWidth = window.innerWidth - this.document.documentElement.clientWidth;
+    this.document.body.style.paddingRight = `${scrollbarWidth}px`;
+    this.document.body.style.overflow = 'hidden';
   }
 
   private unlockBodyScroll(): void {
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.document.body.style.overflow = '';
+    this.document.body.style.paddingRight = '';
   }
 }
