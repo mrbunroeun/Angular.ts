@@ -35,8 +35,8 @@ export class Career {
   heroDescription =
     'BRWeb delivers high-quality food, professional event setups, and customized catering solutions for businesses, schools, weddings, and special occasions across Cambodia.';
   heroButtons: HeroButton[] = [
-    { text: 'Contact Us', link: '/contact-us', style: 'solid' },
-    { text: 'View Packages', link: '/corporate-buffet-catering', style: 'solid' },
+    { text: 'Contact Us', link: '/contact', style: 'solid' },
+    { text: 'View Packages', link: '/canteen-catering-services', style: 'solid' },
   ];
 
   // ---- footer content (passed to <app-footer>) ----

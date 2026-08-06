@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Hero } from '../../../components/hero/hero';
 import { Footer } from '../../../components/footer/footer';
 import { Faqs } from '../../../components/faqs/faqs';
+import { RouterLink } from "@angular/router";
 
 interface OfferImage {
   src: string;
@@ -31,7 +32,7 @@ interface Faq {
 @Component({
   selector: 'app-canteen-catering-services',
   standalone: true,
-  imports: [Hero, Footer, Faqs],
+  imports: [Hero, Footer, Faqs, RouterLink],
   templateUrl: './canteen-catering-services.html',
   styleUrl: './canteen-catering-services.css',
 })

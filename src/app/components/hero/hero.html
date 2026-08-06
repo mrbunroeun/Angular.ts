@@ -39,7 +39,7 @@
   <!-- Main heading -->
   <h1 class="text-white font-semibold text-[30px] md:text-[48px] leading-tight mt-8 max-w-5xl">
     {{ heading }}
-  </h1>
+  </h1> 
 
   <!-- Description -->
   <p class="text-white/90 sm:text-[25px] text-[14px] mt-6 max-w-5xl leading-relaxed">
@@ -51,7 +51,7 @@
     class="grid mx-auto justify-items-center gap-4 mt-8 w-full max-w-[420px]"
     [ngClass]="gridColsClass"
   >
-    <a *ngFor="let button of buttons" [href]="button.link ?? '#'" [class]="buttonClass(button)">
+    <a *ngFor="let button of buttons" [routerLink]="button.link ?? '#'" [class]="buttonClass(button)">
       {{ button.text }}
     </a>
   </div>
